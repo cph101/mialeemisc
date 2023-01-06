@@ -1,0 +1,4 @@
+accessWidener v1 named
+accessible class net/minecraft/world/gen/FlatLevelGeneratorPresets$Registrar
+accessible method net/minecraft/world/gen/FlatLevelGeneratorPresets$Registrar createAndRegister (Lnet/minecraft/util/registry/RegistryKey;Lnet/minecraft/item/ItemConvertible;Lnet/minecraft/util/registry/RegistryKey;Ljava/util/Set;ZZ[Lnet/minecraft/world/gen/chunk/FlatChunkGeneratorLayer;)Lnet/minecraft/util/registry/RegistryEntry;
+accessible method net/minecraft/world/gen/FlatLevelGeneratorPresets$Registrar Registrar (Lnet/minecraft/util/registry/Registry;)Lnet/minecraft/world/gen/FlatLevelGeneratorPresets$Registrar;
