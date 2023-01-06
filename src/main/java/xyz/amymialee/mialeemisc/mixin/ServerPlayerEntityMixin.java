@@ -30,7 +30,7 @@ public abstract class ServerPlayerEntityMixin implements PlayerTargeting {
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void glacial$decayTarget(CallbackInfo ci) {
+    private void mialeeMisc$decayTarget(CallbackInfo ci) {
         if (this.targetDecayTime > 0) {
             this.targetDecayTime--;
             if (this.targetDecayTime == 0) {

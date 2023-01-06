@@ -18,7 +18,7 @@ public class EnchantmentMixin {
     @Shadow @Final public EnchantmentTarget type;
 
     @Inject(method = "isAcceptableItem", at = @At("HEAD"), cancellable = true)
-    public void glacial$acceptable(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    public void mialeeMisc$acceptable(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (stack.getItem() instanceof ICustomEnchantTargetsItem enchants) {
             if (Arrays.stream(enchants.mialeeMisc$getEnchantTargets()).toList().contains(this.type)) {
                 cir.setReturnValue(true);
