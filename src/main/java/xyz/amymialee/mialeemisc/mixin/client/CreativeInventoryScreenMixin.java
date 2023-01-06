@@ -25,7 +25,7 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
     }
 
     @Inject(method = "renderTabIcon", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemGroup;isTopRow()Z"), cancellable = true)
-    protected void legends$creativeTabIcon(MatrixStack matrices, ItemGroup group, CallbackInfo ci) {
+    protected void mialeeMisc$creativeTabIcon(MatrixStack matrices, ItemGroup group, CallbackInfo ci) {
         if (group instanceof MialeeItemGroup mialeeItemGroup) {
             boolean isSelected = group.getIndex() == selectedTab;
             boolean isTopRow = group.isTopRow();

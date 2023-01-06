@@ -4,11 +4,18 @@
   "package": "xyz.amymialee.mialeemisc.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EnchantmentMixin",
     "FlatLevelGeneratorPresetsMixin",
-    "FlatLevelGeneratorPresetsMixin$RegistrarMixin"
+    "FlatLevelGeneratorPresetsMixin$RegistrarMixin",
+    "ItemEntityMixin",
+    "ServerPlayerEntityMixin"
   ],
   "client": [
-    "client.CreativeInventoryScreenMixin"
+    "client.ClientPlayerEntityMixin",
+    "client.CreativeInventoryScreenMixin",
+    "client.ItemRendererMixin",
+    "client.MinecraftClientMixin",
+    "client.PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
