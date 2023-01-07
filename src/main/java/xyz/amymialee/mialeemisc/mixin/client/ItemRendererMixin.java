@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.amymialee.mialeemisc.MialeeMisc;
+import xyz.amymialee.mialeemisc.MialeeMiscClient;
 import xyz.amymialee.mialeemisc.items.ICustomCooldownsItem;
 
 @Mixin(ItemRenderer.class)
@@ -63,7 +63,7 @@ public abstract class ItemRendererMixin {
 
     @Inject(method = "getModel", at = @At("HEAD"), cancellable = true)
     private void legends$heldItemModel(ItemStack stack, World world, LivingEntity entity, int seed, CallbackInfoReturnable<BakedModel> cir) {
-        if (MialeeMisc.INVENTORY_ITEMS.contains(stack.getItem())) {
+        if (MialeeMiscClient.INVENTORY_ITEMS.contains(stack.getItem())) {
             BakedModel bakedModel = this.models.getModelManager().getModel(new ModelIdentifier("minecraft:trident_in_hand#inventory"));
             ClientWorld clientWorld = world instanceof ClientWorld ? (ClientWorld) world : null;
             BakedModel bakedModel2 = bakedModel.getOverrides().apply(bakedModel, stack, clientWorld, entity, seed);
