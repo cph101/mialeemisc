@@ -59,6 +59,18 @@ public class InventoryItemRenderer implements BuiltinItemRendererRegistry.Dynami
         if (this.itemRenderer == null) {
             return;
         }
+        if (this.inventoryModel == null) {
+            this.inventoryModel = MinecraftClient.getInstance().getBakedModelManager().getModel(new ModelIdentifier(this.itemId, "inventory"));
+        }
+        if (this.inventoryModel == null) {
+            return;
+        }
+        if (this.worldModel == null) {
+            this.worldModel = MinecraftClient.getInstance().getBakedModelManager().getModel(new ModelIdentifier(this.itemId + "_handheld", "inventory"));
+        }
+        if (this.worldModel == null) {
+            return;
+        }
         if (mode != ModelTransformation.Mode.FIRST_PERSON_LEFT_HAND && mode != ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND && mode != ModelTransformation.Mode.THIRD_PERSON_LEFT_HAND && mode != ModelTransformation.Mode.THIRD_PERSON_RIGHT_HAND) {
             this.itemRenderer.renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, this.inventoryModel);
         } else {
