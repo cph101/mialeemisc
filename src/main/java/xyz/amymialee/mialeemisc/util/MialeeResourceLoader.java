@@ -2,7 +2,6 @@ package xyz.amymialee.mialeemisc.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -13,7 +12,6 @@ import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 

@@ -75,12 +75,12 @@ public abstract class MinecraftClientMixin {
     }
 
     public boolean mialeeMisc$isValidTarget(@Nullable Entity target) {
-        if (target == null) return false;
+        if (!(target instanceof LivingEntity living)) return false;
         if (this.player == null) return false;
         if (target == this.player) return false;
         if (!this.player.canSee(target)) return false;
         if (target.world != this.world) return false;
-        if (target instanceof LivingEntity living && living.isDead()) return false;
+        if (living.isDead()) return false;
         if (target.isRemoved()) return false;
         if (target.isTeammate(this.player)) return false;
         if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(target)) return false;
