@@ -43,10 +43,10 @@ public abstract class ItemRendererMixin {
         }
     }
 
-    @Inject(method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/ItemCooldownManager;getCooldownProgress(Lnet/minecraft/item/Item;F)F"))
+    @Inject(method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/ItemCooldownManager;getCooldownProgress(Lnet/minecraft/item/Item;F)F"), cancellable = true)
     public void mialeeMisc$cooldownStopper(TextRenderer renderer, ItemStack stack, int x, int y, String countLabel, CallbackInfo ci) {
         ClientPlayerEntity clientPlayerEntity = MinecraftClient.getInstance().player;
-        if (clientPlayerEntity != null && stack.getItem() instanceof ICustomCooldownsItem item) {
+        if (clientPlayerEntity != null && stack.getItem() instanceof ICustomCooldownsItem) {
             ci.cancel();
         }
     }
