@@ -61,7 +61,7 @@ public abstract class MinecraftClientMixin {
         Box box = camera.getBoundingBox().stretch(cameraTarget).expand(1.0, 1.0, 1.0);
         Predicate<Entity> predicate = this::mialeeMisc$isValidTarget;
         if (this.player.getMainHandStack().getItem() instanceof ICustomTrackingItem item) {
-            predicate = item.mialeeMisc$getTrackingPredicate();
+            predicate = item.mialeeMisc$getTrackingPredicate(this.player);
         }
         EntityHitResult entityHitResult = mialeeMisc$raycast(this.player, box, predicate);
         if (entityHitResult != null) {
