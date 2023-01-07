@@ -8,7 +8,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Box;
@@ -22,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.amymialee.mialeemisc.MialeeMisc;
 import xyz.amymialee.mialeemisc.items.IClickConsumingItem;
+import xyz.amymialee.mialeemisc.items.ICustomTrackingItem;
 import xyz.amymialee.mialeemisc.util.PlayerTargeting;
 
 import java.util.function.Predicate;
@@ -59,7 +59,11 @@ public abstract class MinecraftClientMixin {
         Vec3d cameraRot = camera.getRotationVec(1.0f);
         Vec3d cameraTarget = cameraPos.add(cameraRot.multiply(distanceCap));
         Box box = camera.getBoundingBox().stretch(cameraTarget).expand(1.0, 1.0, 1.0);
-        EntityHitResult entityHitResult = mialeeMisc$raycast(this.player, box, this::mialeeMisc$isValidTarget);
+        Predicate<Entity> predicate = this::mialeeMisc$isValidTarget;
+        if (this.player.getMainHandStack().getItem() instanceof ICustomTrackingItem item) {
+            predicate = item.mialeeMisc$getTrackingPredicate();
+        }
+        EntityHitResult entityHitResult = mialeeMisc$raycast(this.player, box, predicate);
         if (entityHitResult != null) {
             Entity target = entityHitResult.getEntity();
             if (target instanceof LivingEntity living) {
@@ -70,13 +74,13 @@ public abstract class MinecraftClientMixin {
         }
     }
 
-    public boolean mialeeMisc$isValidTarget(@Nullable LivingEntity target) {
+    public boolean mialeeMisc$isValidTarget(@Nullable Entity target) {
         if (target == null) return false;
         if (this.player == null) return false;
         if (target == this.player) return false;
         if (!this.player.canSee(target)) return false;
         if (target.world != this.world) return false;
-        if (target.isDead()) return false;
+        if (target instanceof LivingEntity living && living.isDead()) return false;
         if (target.isRemoved()) return false;
         if (target.isTeammate(this.player)) return false;
         if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(target)) return false;
@@ -84,11 +88,11 @@ public abstract class MinecraftClientMixin {
         return target.canHit();
     }
 
-    private static EntityHitResult mialeeMisc$raycast(Entity player, Box box, Predicate<LivingEntity> predicate) {
+    private static EntityHitResult mialeeMisc$raycast(Entity player, Box box, Predicate<Entity> predicate) {
         Entity target = null;
         double targetDistance = 0.01;
         Vec3d rotationVec = player.getRotationVector();
-        for (LivingEntity possibleTarget : player.world.getEntitiesByClass(LivingEntity.class, box, predicate)) {
+        for (Entity possibleTarget : player.world.getEntitiesByClass(Entity.class, box, predicate)) {
             if (possibleTarget.getRootVehicle() == player.getRootVehicle()) {
                 continue;
             }
