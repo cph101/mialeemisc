@@ -98,7 +98,7 @@ public class MialeeMisc implements ModInitializer {
         }
     }
 
-    public void registerInventoryItem(Item item) {
+    public static void registerInventoryItem(Item item) {
         INVENTORY_ITEMS.add(item);
         Identifier itemId = Registry.ITEM.getId(item);
         InventoryItemRenderer inventoryItemRenderer = new InventoryItemRenderer(itemId);
