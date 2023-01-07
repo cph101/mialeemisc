@@ -48,7 +48,7 @@ public class MialeeMisc implements ModInitializer {
 
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             LOGGER.info("Loaded in development environment.");
-            MialeeItemGroup.create(id(MOD_ID, "mialee_group"))
+            MialeeItemGroup.create(id("mialee_group"))
                     .setIcon((i) -> {
                         Item item = Registry.ITEM.get(MialeeMath.clampLoop(i / 2 + 1, 1, Registry.ITEM.size()));
                         return new ItemStack(item);

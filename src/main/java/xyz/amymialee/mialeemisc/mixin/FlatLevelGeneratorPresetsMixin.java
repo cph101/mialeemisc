@@ -32,7 +32,7 @@ public class FlatLevelGeneratorPresetsMixin {
         @Inject(method = "initAndGetDefault", at = @At("TAIL"))
         private void mialeeMisc$addPresets(CallbackInfoReturnable<String> cir) {
             FlatPresetRegistry.addEntry(new FlatPresetRegistry.FlatPresetEntry(
-                    MialeeMisc.id(MialeeMisc.MOD_ID, "dev_ready"),
+                    MialeeMisc.id("dev_ready"),
                     Items.RED_SANDSTONE,
                     BiomeKeys.DARK_FOREST,
                     ImmutableSet.of(),
