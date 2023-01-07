@@ -36,7 +36,7 @@ public abstract class MinecraftClientMixin {
     private void mialeeMisc$cancelAttack(CallbackInfoReturnable<Boolean> cir) {
         if (this.player != null) {
             if (this.player.getMainHandStack().getItem() instanceof IClickConsumingItem) {
-                ClientPlayNetworking.send(MialeeMisc.clickConsume, PacketByteBufs.empty());
+                ClientPlayNetworking.send(MialeeMisc.clickConsumePacket, PacketByteBufs.empty());
                 cir.setReturnValue(false);
             }
         }
@@ -79,7 +79,6 @@ public abstract class MinecraftClientMixin {
         if (this.player == null) return false;
         if (target == this.player) return false;
         if (!this.player.canSee(target)) return false;
-        if (target.world != this.world) return false;
         if (living.isDead()) return false;
         if (target.isRemoved()) return false;
         if (target.isTeammate(this.player)) return false;

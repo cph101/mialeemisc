@@ -1,0 +1,51 @@
+package xyz.amymialee.mialeemisc.mixin;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonPart;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.amymialee.mialeemisc.items.ICustomAttackItem;
+import xyz.amymialee.mialeemisc.items.ICustomKillItem;
+
+@Mixin(PlayerEntity.class)
+public abstract class PlayerEntityMixin extends LivingEntity {
+    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+        super(entityType, world);
+    }
+
+    @Inject(method = "onKilledOther", at = @At("TAIL"))
+    private void mialeeMisc$customKills(ServerWorld world, LivingEntity other, CallbackInfoReturnable<Boolean> cir) {
+        ItemStack main = this.getMainHandStack();
+        if (main.getItem() instanceof ICustomKillItem item) {
+            item.mialeeMisc$onKilledOther(this, main, other);
+        }
+    }
+
+    @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
+    public void mialeeMisc$customAttacks(Entity target, CallbackInfo ci) {
+        if (!target.isAttackable()) {
+            return;
+        }
+        if (target.handleAttack(this)) {
+            return;
+        }
+        if (target instanceof EnderDragonPart) {
+            target = ((EnderDragonPart)target).owner;
+        }
+        ItemStack main = this.getMainHandStack();
+        if (main.getItem() instanceof ICustomAttackItem item) {
+            if (item.mialeeMisc$customAttack(this, target)) {
+                ci.cancel();
+            }
+        }
+    }
+}

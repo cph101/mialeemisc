@@ -4,10 +4,15 @@
   "package": "xyz.amymialee.mialeemisc.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BlockMixin",
     "EnchantmentMixin",
+    "EntityMixin",
     "FlatLevelGeneratorPresetsMixin",
     "FlatLevelGeneratorPresetsMixin$RegistrarMixin",
     "ItemEntityMixin",
+    "MobEntityMixin",
+    "PlayerEntityMixin",
+    "RecipeManagerMixin",
     "ServerPlayerEntityMixin"
   ],
   "client": [
