@@ -62,13 +62,11 @@ public class MialeeMisc implements ModInitializer {
                 }
             });
         });
-        ServerPlayNetworking.registerGlobalReceiver(clickConsumePacket, (minecraftServer, serverPlayer, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
-            minecraftServer.execute(() -> {
-                if (serverPlayer.getMainHandStack().getItem() instanceof IClickConsumingItem item) {
-                    item.mialeeMisc$doAttack(serverPlayer);
-                }
-            });
-        });
+        ServerPlayNetworking.registerGlobalReceiver(clickConsumePacket, (minecraftServer, serverPlayer, serverPlayNetworkHandler, packetByteBuf, packetSender) -> minecraftServer.execute(() -> {
+            if (serverPlayer.getMainHandStack().getItem() instanceof IClickConsumingItem item) {
+                item.mialeeMisc$doAttack(serverPlayer);
+            }
+        }));
         AutoSmeltingCallback.EVENT.register((stateX, worldX, posX, blockEntityX, entityX, stackX) -> {
             if (stackX.getItem() instanceof IAutoSmeltingItem autoSmeltingItem && autoSmeltingItem.mialeeMisc$shouldSmelt(stackX, stateX)) {
                 return ActionResult.SUCCESS;
@@ -99,7 +97,6 @@ public class MialeeMisc implements ModInitializer {
     }
 
     public static void registerInventoryItem(Item item) {
-        INVENTORY_ITEMS.add(item);
         Identifier itemId = Registry.ITEM.getId(item);
         InventoryItemRenderer inventoryItemRenderer = new InventoryItemRenderer(itemId);
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(inventoryItemRenderer);
@@ -108,6 +105,7 @@ public class MialeeMisc implements ModInitializer {
             out.accept(new ModelIdentifier(itemId, "inventory"));
             out.accept(new ModelIdentifier(itemId + "_handheld", "inventory"));
         });
+        INVENTORY_ITEMS.add(item);
     }
 
     public static ItemStack enchantStack(ItemStack stack, Enchantment enchantment, int level) {
