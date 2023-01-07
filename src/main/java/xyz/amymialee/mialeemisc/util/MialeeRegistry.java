@@ -32,21 +32,21 @@ public class MialeeRegistry {
         return Registry.register(Registry.STATUS_EFFECT, id, effect);
     }
 
-    private static Block register(Identifier id, Block block, ItemGroup group) {
+    public static Block register(Identifier id, Block block, ItemGroup group) {
         return registerBlockItem(id, new BlockItem(block, new FabricItemSettings().group(group)));
     }
 
-    private static Block registerBlockItem(Identifier id, BlockItem item) {
+    public static Block registerBlockItem(Identifier id, BlockItem item) {
         register(id, item);
         return register(id, item.getBlock());
     }
 
-    private static Block register(Identifier id, Block block) {
+    public static Block register(Identifier id, Block block) {
         Registry.register(Registry.BLOCK, id, block);
         return block;
     }
 
-    private static Enchantment register(Identifier id, Enchantment enchantment) {
+    public static Enchantment register(Identifier id, Enchantment enchantment) {
         return Registry.register(Registry.ENCHANTMENT, id, enchantment);
     }
 
@@ -54,11 +54,11 @@ public class MialeeRegistry {
         return Registry.register(Registry.ENTITY_TYPE, id, entity);
     }
 
-    private static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> blockEntityType) {
+    public static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> blockEntityType) {
         return Registry.register(Registry.BLOCK_ENTITY_TYPE, id, blockEntityType);
     }
 
-    private static <T extends ScreenHandler> ScreenHandlerType<T> register(Identifier id, ScreenHandlerType<T> screenHandlerType) {
+    public static <T extends ScreenHandler> ScreenHandlerType<T> register(Identifier id, ScreenHandlerType<T> screenHandlerType) {
         return Registry.register(Registry.SCREEN_HANDLER, id, screenHandlerType);
     }
 
