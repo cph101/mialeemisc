@@ -1,11 +1,14 @@
 package xyz.amymialee.mialeemisc.mixin.client;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Box;
@@ -16,6 +19,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.amymialee.mialeemisc.MialeeMisc;
+import xyz.amymialee.mialeemisc.items.IClickConsumingItem;
 import xyz.amymialee.mialeemisc.util.PlayerTargeting;
 
 import java.util.function.Predicate;
@@ -25,6 +31,16 @@ public abstract class MinecraftClientMixin {
     @Shadow @Nullable public ClientWorld world;
     @Shadow public abstract @Nullable Entity getCameraEntity();
     @Shadow @Nullable public ClientPlayerEntity player;
+
+    @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
+    private void mialeeMisc$cancelAttack(CallbackInfoReturnable<Boolean> cir) {
+        if (this.player != null) {
+            if (this.player.getMainHandStack().getItem() instanceof IClickConsumingItem) {
+                ClientPlayNetworking.send(MialeeMisc.clickConsume, PacketByteBufs.empty());
+                cir.setReturnValue(false);
+            }
+        }
+    }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/tutorial/TutorialManager;tick(Lnet/minecraft/client/world/ClientWorld;Lnet/minecraft/util/hit/HitResult;)V"))
     public void mialeeMisc$setLastTarget(CallbackInfo ci) {
