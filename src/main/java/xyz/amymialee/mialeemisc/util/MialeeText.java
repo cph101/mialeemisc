@@ -7,7 +7,7 @@ import xyz.amymialee.mialeemisc.MialeeMisc;
 import java.util.List;
 
 public class MialeeText {
-    public Text withColor(Text text, int color) {
+    public static Text withColor(Text text, int color) {
         Style style = text.getStyle().withColor(color);
         List<Text> styled = text.getWithStyle(style);
         if (styled.size() > 0) {
