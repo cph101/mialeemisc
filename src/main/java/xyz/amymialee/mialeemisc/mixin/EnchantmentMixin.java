@@ -23,6 +23,7 @@ public class EnchantmentMixin {
             if (Arrays.stream(enchants.mialeeMisc$getEnchantTargets()).toList().contains(this.type)) {
                 cir.setReturnValue(true);
             }
+            cir.setReturnValue(false);
         }
     }
 }
