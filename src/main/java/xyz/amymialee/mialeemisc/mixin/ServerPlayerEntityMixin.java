@@ -1,6 +1,11 @@
 package xyz.amymialee.mialeemisc.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,5 +42,14 @@ public abstract class ServerPlayerEntityMixin implements PlayerTargeting {
                 this.mialeeMisc$setLastTarget(null);
             }
         }
+    }
+
+    @WrapOperation(method = "playerTick", at = @At(value = "INVOKE" , target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+    private Item mialeeMisc$nullCheck(ItemStack stack, Operation<Item> original) {
+        Item originalItem = original.call(stack);
+        if (originalItem == null) {
+            return Items.AIR;
+        }
+        return originalItem;
     }
 }
