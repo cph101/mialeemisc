@@ -19,7 +19,7 @@ import java.util.Optional;
 @Mixin(RecipeManager.class)
 public class RecipeManagerMixin {
     @Inject(method = "getFirstMatch(Lnet/minecraft/recipe/RecipeType;Lnet/minecraft/inventory/Inventory;Lnet/minecraft/world/World;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
-    private <C extends Inventory, T extends Recipe<C>> void legends$killRecipes(RecipeType<T> type, C inventory, World world, CallbackInfoReturnable<Optional<T>> cir) {
+    private <C extends Inventory, T extends Recipe<C>> void mialeeMisc$killRecipes(RecipeType<T> type, C inventory, World world, CallbackInfoReturnable<Optional<T>> cir) {
         if (!world.getGameRules().getBoolean(MialeeMisc.DISABLE_RECIPES_GAMERULE)) {
             return;
         }
@@ -30,7 +30,7 @@ public class RecipeManagerMixin {
     }
 
     @Inject(method = "getFirstMatch(Lnet/minecraft/recipe/RecipeType;Lnet/minecraft/inventory/Inventory;Lnet/minecraft/world/World;Lnet/minecraft/util/Identifier;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
-    private <C extends Inventory, T extends Recipe<C>> void legends$killRecipes(RecipeType<T> type, C inventory, World world, @Nullable Identifier id, CallbackInfoReturnable<Optional<Pair<Identifier, T>>> cir) {
+    private <C extends Inventory, T extends Recipe<C>> void mialeeMisc$killRecipes(RecipeType<T> type, C inventory, World world, @Nullable Identifier id, CallbackInfoReturnable<Optional<Pair<Identifier, T>>> cir) {
         if (!world.getGameRules().getBoolean(MialeeMisc.DISABLE_RECIPES_GAMERULE)) {
             return;
         }
