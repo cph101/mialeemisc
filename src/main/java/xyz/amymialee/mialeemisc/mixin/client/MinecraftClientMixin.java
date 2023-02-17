@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.amymialee.mialeemisc.MialeeMisc;
 import xyz.amymialee.mialeemisc.items.IClickConsumingItem;
 import xyz.amymialee.mialeemisc.items.ICustomTrackingItem;
-import xyz.amymialee.mialeemisc.util.PlayerTargeting;
+import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
 
 import java.util.function.Predicate;
 
@@ -67,7 +67,7 @@ public abstract class MinecraftClientMixin {
         if (entityHitResult != null) {
             Entity target = entityHitResult.getEntity();
             if (target instanceof LivingEntity living) {
-                if (this.player instanceof PlayerTargeting targeting) {
+                if (this.player instanceof IPlayerTargeting targeting) {
                     targeting.mialeeMisc$setLastTarget(living);
                 }
             }

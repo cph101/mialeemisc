@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import xyz.amymialee.mialeemisc.items.IUniversalRangedWeapon;
+import xyz.amymialee.mialeemisc.items.IUniversalRangedItem;
 
 @Mixin(AbstractSkeletonEntity.class)
 public abstract class AbstractSkeletonEntityMixin extends HostileEntity {
@@ -30,9 +30,9 @@ public abstract class AbstractSkeletonEntityMixin extends HostileEntity {
         if (original.call(stack, item)) {
             return true;
         }
-        if (stack.getItem() instanceof IUniversalRangedWeapon) {
+        if (stack.getItem() instanceof IUniversalRangedItem) {
             return true;
         }
-        return this.getMainHandStack().getItem() instanceof IUniversalRangedWeapon;
+        return this.getMainHandStack().getItem() instanceof IUniversalRangedItem;
     }
 }

@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.amymialee.mialeemisc.MialeeMisc;
-import xyz.amymialee.mialeemisc.util.AutoSmeltingCallback;
+import xyz.amymialee.mialeemisc.events.AutoSmeltingCallback;
 
 import java.util.List;
 

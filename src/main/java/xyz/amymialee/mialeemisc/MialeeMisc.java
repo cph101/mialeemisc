@@ -23,9 +23,9 @@ import org.slf4j.LoggerFactory;
 import xyz.amymialee.mialeemisc.itemgroup.MialeeItemGroup;
 import xyz.amymialee.mialeemisc.items.IAutoSmeltingItem;
 import xyz.amymialee.mialeemisc.items.IClickConsumingItem;
-import xyz.amymialee.mialeemisc.util.AutoSmeltingCallback;
+import xyz.amymialee.mialeemisc.events.AutoSmeltingCallback;
 import xyz.amymialee.mialeemisc.util.MialeeMath;
-import xyz.amymialee.mialeemisc.util.PlayerTargeting;
+import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
 
 @SuppressWarnings("unused")
 public class MialeeMisc implements ModInitializer {
@@ -46,7 +46,7 @@ public class MialeeMisc implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(targetPacket, (minecraftServer, serverPlayer, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
             int id = packetByteBuf.readInt();
             minecraftServer.execute(() -> {
-                if (serverPlayer instanceof PlayerTargeting targeting) {
+                if (serverPlayer instanceof IPlayerTargeting targeting) {
                     if (serverPlayer.getWorld().getEntityById(id) instanceof LivingEntity living) {
                         targeting.mialeeMisc$setLastTarget(living);
                     }

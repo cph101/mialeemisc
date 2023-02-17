@@ -12,15 +12,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.amymialee.mialeemisc.MialeeMisc;
-import xyz.amymialee.mialeemisc.util.PlayerTargeting;
+import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
 
 @Mixin(ClientPlayerEntity.class)
-public class ClientPlayerEntityMixin implements PlayerTargeting {
-    @Unique
-    @Nullable
-    LivingEntity lastTarget;
-    @Unique
-    int targetDecayTime;
+public class ClientPlayerEntityMixin implements IPlayerTargeting {
+    @Unique @Nullable LivingEntity lastTarget;
+    @Unique int targetDecayTime;
 
     @Override
     public LivingEntity mialeeMisc$getLastTarget() {

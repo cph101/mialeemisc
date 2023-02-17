@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.amymialee.mialeemisc.items.IUniversalRangedWeapon;
+import xyz.amymialee.mialeemisc.items.IUniversalRangedItem;
 
 @Mixin(BowAttackGoal.class)
 public class BowAttackGoalMixin<T extends HostileEntity & RangedAttackMob> {
@@ -20,12 +20,12 @@ public class BowAttackGoalMixin<T extends HostileEntity & RangedAttackMob> {
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/RangedAttackMob;attack(Lnet/minecraft/entity/LivingEntity;F)V"))
     private void mialeeMisc$universalRangedAttack(T attacker, LivingEntity target, float pullProgress, Operation<Void> original) {
-        if (IUniversalRangedWeapon.tryRangedAttack(attacker, target, pullProgress)) return;
+        if (IUniversalRangedItem.tryRangedAttack(attacker, target, pullProgress)) return;
         original.call(attacker, target, pullProgress);
     }
 
     @Inject(method = "isHoldingBow", at = @At("HEAD"), cancellable = true)
     private void mialeeMisc$moreBows(CallbackInfoReturnable<Boolean> cir) {
-        if (this.actor.isHolding((stack -> stack.getItem() instanceof IUniversalRangedWeapon))) cir.setReturnValue(true);
+        if (this.actor.isHolding((stack -> stack.getItem() instanceof IUniversalRangedItem))) cir.setReturnValue(true);
     }
 }

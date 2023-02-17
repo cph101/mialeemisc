@@ -11,7 +11,6 @@
     "FlatLevelGeneratorPresetsMixin$RegistrarMixin",
     "ItemEntityMixin",
     "ItemStackMixin",
-    "MobEntityMixin",
     "PlayerEntityMixin",
     "RecipeManagerMixin",
     "ServerPlayerEntityMixin",
@@ -26,6 +25,7 @@
     "goals.WitchProjectileAttackGoalMixin",
     "mobs.AbstractSkeletonEntityMixin",
     "mobs.LLamaEntityMixin",
+    "mobs.MobEntityMixin",
     "mobs.PiglinEntityMixin",
     "mobs.WitchEntityMixin",
     "mobs.WitherEntityMixin"
@@ -33,6 +33,7 @@
   "client": [
     "client.ClientPlayerEntityMixin",
     "client.CreativeInventoryScreenMixin",
+    "client.EntityRenderDispatcherMixin",
     "client.ItemRendererMixin",
     "client.MinecraftClientMixin",
     "client.PlayerEntityRendererMixin"

@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.amymialee.mialeemisc.items.IUniversalRangedWeapon;
+import xyz.amymialee.mialeemisc.items.IUniversalRangedItem;
 
 @Mixin(PiglinEntity.class)
 public abstract class PiglinEntityMixin extends LivingEntity {
@@ -18,8 +18,8 @@ public abstract class PiglinEntityMixin extends LivingEntity {
     }
 
     @Inject(method = "canUseRangedWeapon", at = @At("HEAD"), cancellable = true)
-    public void legends$anyoneCanWeapon(RangedWeaponItem weapon, CallbackInfoReturnable<Boolean> cir) {
-        if (weapon instanceof IUniversalRangedWeapon) {
+    public void mialeeMisc$anyoneCanWeapon(RangedWeaponItem weapon, CallbackInfoReturnable<Boolean> cir) {
+        if (weapon instanceof IUniversalRangedItem) {
             cir.setReturnValue(true);
         }
     }

@@ -1,4 +1,4 @@
-package xyz.amymialee.mialeemisc.mixin;
+package xyz.amymialee.mialeemisc.mixin.mobs;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -17,8 +17,7 @@ import xyz.amymialee.mialeemisc.items.ICustomAttackItem;
 
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin extends LivingEntity {
-    @Override
-    @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot slot);
+    @Override @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot slot);
 
     protected MobEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
