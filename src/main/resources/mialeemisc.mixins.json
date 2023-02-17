@@ -14,7 +14,11 @@
     "MobEntityMixin",
     "PlayerEntityMixin",
     "RecipeManagerMixin",
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "goals.BowAttackGoalMixin",
+    "goals.CrossbowAttackGoalMixin",
+    "goals.CrossbowAttackTaskMixin",
+    "goals.ProjectileAttackGoalMixin"
   ],
   "client": [
     "client.ClientPlayerEntityMixin",

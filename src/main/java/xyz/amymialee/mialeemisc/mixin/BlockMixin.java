@@ -3,10 +3,7 @@ package xyz.amymialee.mialeemisc.mixin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -24,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.amymialee.mialeemisc.MialeeMisc;
-import xyz.amymialee.mialeemisc.items.IAutoSmeltingItem;
 import xyz.amymialee.mialeemisc.util.AutoSmeltingCallback;
 
 import java.util.List;
