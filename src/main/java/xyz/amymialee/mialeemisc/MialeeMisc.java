@@ -37,6 +37,7 @@ public class MialeeMisc implements ModInitializer {
     public static final TagKey<Item> DAMAGE_IMMUNE = TagKey.of(Registry.ITEM_KEY, id("damage_immune"));
     public static final TagKey<Item> NETHERITE_TOOLS = TagKey.of(Registry.ITEM_KEY, id("netherite_tools"));
     public static final TagKey<Item> UNCRAFTABLE = TagKey.of(Registry.ITEM_KEY, id("uncraftable"));
+    public static final TagKey<Item> UNBREAKABLE = TagKey.of(Registry.ITEM_KEY, id("unbreakable"));
     public static final GameRules.Key<GameRules.BooleanRule> FIRE_ASPECT_AUTOSMELTING = GameRuleRegistry.register("mialeemisc:fireaspectsmelting", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true));
     public static final GameRules.Key<GameRules.BooleanRule> DISABLE_RECIPES_GAMERULE = GameRuleRegistry.register("mialeemisc:disable_recipes_tag", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true));
 

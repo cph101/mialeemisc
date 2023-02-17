@@ -10,6 +10,7 @@
     "FlatLevelGeneratorPresetsMixin",
     "FlatLevelGeneratorPresetsMixin$RegistrarMixin",
     "ItemEntityMixin",
+    "ItemStackMixin",
     "MobEntityMixin",
     "PlayerEntityMixin",
     "RecipeManagerMixin",
