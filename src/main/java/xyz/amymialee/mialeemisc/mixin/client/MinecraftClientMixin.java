@@ -20,9 +20,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.amymialee.mialeemisc.MialeeMisc;
+import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
 import xyz.amymialee.mialeemisc.items.IClickConsumingItem;
 import xyz.amymialee.mialeemisc.items.ICustomTrackingItem;
-import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
 
 import java.util.function.Predicate;
 

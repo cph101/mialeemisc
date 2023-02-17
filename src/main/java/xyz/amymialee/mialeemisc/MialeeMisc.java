@@ -20,12 +20,12 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
+import xyz.amymialee.mialeemisc.events.AutoSmeltingCallback;
 import xyz.amymialee.mialeemisc.itemgroup.MialeeItemGroup;
 import xyz.amymialee.mialeemisc.items.IAutoSmeltingItem;
 import xyz.amymialee.mialeemisc.items.IClickConsumingItem;
-import xyz.amymialee.mialeemisc.events.AutoSmeltingCallback;
 import xyz.amymialee.mialeemisc.util.MialeeMath;
-import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
 
 @SuppressWarnings("unused")
 public class MialeeMisc implements ModInitializer {
