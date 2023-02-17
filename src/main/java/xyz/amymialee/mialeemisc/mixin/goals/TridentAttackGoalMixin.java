@@ -31,7 +31,7 @@ public class TridentAttackGoalMixin extends ProjectileAttackGoal {
         }
     }
 
-    @WrapOperation(method = "start", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/ProjectileAttackGoal;start()V"))
+    @WrapOperation(method = "start", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/mob/DrownedEntity;setCurrentHand(Lnet/minecraft/util/Hand;)V"))
     public void mialeeMisc$offHanded(DrownedEntity entity, Hand hand, Operation<Void> original) {
         ItemStack stack = entity.getStackInHand(Hand.MAIN_HAND);
         if (!stack.isOf(Items.TRIDENT) && !(stack.getItem() instanceof IUniversalRangedItem)) {

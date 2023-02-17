@@ -20,8 +20,8 @@ public class CrossbowAttackGoalMixin<T extends HostileEntity & RangedAttackMob &
     @Shadow @Final private T actor;
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/RangedAttackMob;attack(Lnet/minecraft/entity/LivingEntity;F)V"))
-    private void mialeeMisc$universalRangedAttack(T attacker, LivingEntity target, float pullProgress, Operation<Void> original) {
-        if (IUniversalRangedItem.tryRangedAttack(attacker, target, pullProgress)) return;
+    private void mialeeMisc$universalRangedAttack(RangedAttackMob attacker, LivingEntity target, float pullProgress, Operation<Void> original) {
+        if (attacker instanceof LivingEntity living && IUniversalRangedItem.tryRangedAttack(living, target, pullProgress)) return;
         original.call(attacker, target, pullProgress);
     }
 
