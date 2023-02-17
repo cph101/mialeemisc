@@ -8,8 +8,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ProjectileAttackGoal.class)
 public interface ProjectileAttackGoalAccessor {
-    @Accessor("mob")
-    MobEntity getMob();
     @Accessor("owner")
     RangedAttackMob getOwner();
     @Accessor("mobSpeed")
