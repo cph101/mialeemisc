@@ -15,10 +15,20 @@
     "PlayerEntityMixin",
     "RecipeManagerMixin",
     "ServerPlayerEntityMixin",
+    "accessors.LlamaEntityAccessor",
+    "accessors.ProjectileAttackGoalAccessor",
     "goals.BowAttackGoalMixin",
     "goals.CrossbowAttackGoalMixin",
     "goals.CrossbowAttackTaskMixin",
-    "goals.ProjectileAttackGoalMixin"
+    "goals.LlamaProjectileAttackGoalMixin",
+    "goals.ProjectileAttackGoalMixin",
+    "goals.TridentAttackGoalMixin",
+    "goals.WitchProjectileAttackGoalMixin",
+    "mobs.AbstractSkeletonEntityMixin",
+    "mobs.LLamaEntityMixin",
+    "mobs.PiglinEntityMixin",
+    "mobs.WitchEntityMixin",
+    "mobs.WitherEntityMixin"
   ],
   "client": [
     "client.ClientPlayerEntityMixin",
