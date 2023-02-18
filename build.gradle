@@ -22,8 +22,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    implementation include ("com.github.LlamaLad7:MixinExtras:0.1.1")
-    annotationProcessor ("com.github.LlamaLad7:MixinExtras:0.1.1")
+    implementation include ("com.github.LlamaLad7:MixinExtras:${project.mixin_extras_version}")
+    annotationProcessor ("com.github.LlamaLad7:MixinExtras:${project.mixin_extras_version}")
     modCompileOnly ("dev.emi:emi:0.5.3+1.19.2")
     modRuntimeOnly ("dev.emi:emi:0.5.3+1.19.2")
 }
