@@ -11,7 +11,9 @@
     "FlatLevelGeneratorPresetsMixin$RegistrarMixin",
     "ItemEntityMixin",
     "ItemStackMixin",
+    "LivingEntityMixin",
     "PlayerEntityMixin",
+    "ProjectileUtilMixin",
     "RecipeManagerMixin",
     "ServerPlayerEntityMixin",
     "accessors.LlamaEntityAccessor",
@@ -36,7 +38,8 @@
     "client.EntityRenderDispatcherMixin",
     "client.ItemRendererMixin",
     "client.MinecraftClientMixin",
-    "client.PlayerEntityRendererMixin"
+    "client.PlayerEntityRendererMixin",
+    "client.PresetsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

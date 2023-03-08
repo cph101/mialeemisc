@@ -2,11 +2,13 @@ package xyz.amymialee.mialeemisc.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -14,11 +16,22 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
+import xyz.amymialee.mialeemisc.cooldowns.IdentifierCooldownManager;
+import xyz.amymialee.mialeemisc.cooldowns.ServerIdentifierCooldownManager;
 
 @Mixin(ServerPlayerEntity.class)
-public abstract class ServerPlayerEntityMixin implements IPlayerTargeting {
+public abstract class ServerPlayerEntityMixin extends PlayerEntityMixin implements IPlayerTargeting {
     @Unique @Nullable LivingEntity lastTarget;
     @Unique int targetDecayTime;
+
+    protected ServerPlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+        super(entityType, world);
+    }
+
+    @Override
+    protected IdentifierCooldownManager createIdentifierCooldownManager() {
+        return new ServerIdentifierCooldownManager((ServerPlayerEntity) (Object) this);
+    }
 
     @Override
     public LivingEntity mialeeMisc$getLastTarget() {

@@ -14,6 +14,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -24,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.amymialee.mialeemisc.MialeeMiscClient;
+import xyz.amymialee.mialeemisc.cooldowns.IdentifierCooldownManager;
 import xyz.amymialee.mialeemisc.items.ICustomCooldownsItem;
 
 @Mixin(ItemRenderer.class)
@@ -35,9 +37,9 @@ public abstract class ItemRendererMixin {
     public void mialeeMisc$cooldownOverlay(TextRenderer renderer, ItemStack stack, int x, int y, String countLabel, CallbackInfo ci) {
         ClientPlayerEntity clientPlayerEntity = MinecraftClient.getInstance().player;
         if (clientPlayerEntity != null && stack.getItem() instanceof ICustomCooldownsItem item) {
-            Item[] array = item.mialeeMisc$getCooldownItems();
+            Identifier[] array = item.mialeeMisc$getCooldownIdentifiers();
             for (int i = 0; i < array.length; i++) {
-                float progress = clientPlayerEntity.getItemCooldownManager().getCooldownProgress(array[i], MinecraftClient.getInstance().getTickDelta());
+                float progress = IdentifierCooldownManager.get(clientPlayerEntity).getCooldownProgress(array[i], MinecraftClient.getInstance().getTickDelta());
                 if (progress > 0.0f) {
                     RenderSystem.disableDepthTest();
                     RenderSystem.disableTexture();

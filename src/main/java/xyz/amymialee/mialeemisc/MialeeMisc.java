@@ -8,8 +8,10 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -34,15 +36,17 @@ public class MialeeMisc implements ModInitializer {
     public static final Identifier clickConsumePacket = id("click_consume");
     public static final Identifier targetPacket = id("target");
     public static final Identifier floatyPacket = id("floaty");
+    public static final Identifier cooldownPacket = id("cooldown");
     public static final TagKey<Item> DAMAGE_IMMUNE = TagKey.of(Registry.ITEM_KEY, id("damage_immune"));
     public static final TagKey<Item> NETHERITE_TOOLS = TagKey.of(Registry.ITEM_KEY, id("netherite_tools"));
     public static final TagKey<Item> UNCRAFTABLE = TagKey.of(Registry.ITEM_KEY, id("uncraftable"));
     public static final TagKey<Item> UNBREAKABLE = TagKey.of(Registry.ITEM_KEY, id("unbreakable"));
     public static final GameRules.Key<GameRules.BooleanRule> FIRE_ASPECT_AUTOSMELTING = GameRuleRegistry.register("mialeemisc:fireaspectsmelting", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true));
-    public static final GameRules.Key<GameRules.BooleanRule> DISABLE_RECIPES_GAMERULE = GameRuleRegistry.register("mialeemisc:disable_recipes_tag", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(true));
 
     @Override
     public void onInitialize() {
+        MialeeMiscConfig.loadConfig();
+        MialeeMiscConfig.saveConfig();
         ServerPlayNetworking.registerGlobalReceiver(targetPacket, (minecraftServer, serverPlayer, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
             int id = packetByteBuf.readInt();
             minecraftServer.execute(() -> {
@@ -87,8 +91,18 @@ public class MialeeMisc implements ModInitializer {
         }
     }
 
-    public static ItemStack enchantStack(ItemStack stack, Enchantment enchantment, int level) {
-        stack.addEnchantment(enchantment, level);
+    public static ItemStack enchantStack(ItemStack stack, EnchantmentLevelEntry ... entry) {
+        for (EnchantmentLevelEntry enchantmentLevelEntry : entry) {
+            stack.addEnchantment(enchantmentLevelEntry.enchantment, enchantmentLevelEntry.level);
+        }
+        return stack;
+    }
+
+    public static ItemStack enchantedBook(EnchantmentLevelEntry ... entry) {
+        ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
+        for (EnchantmentLevelEntry enchantmentLevelEntry : entry) {
+            EnchantedBookItem.addEnchantment(stack, enchantmentLevelEntry);
+        }
         return stack;
     }
 

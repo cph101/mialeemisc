@@ -13,7 +13,6 @@ import xyz.amymialee.mialeemisc.MialeeMisc;
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
     @Shadow public abstract Item getItem();
-
     @Shadow public abstract boolean isIn(TagKey<Item> tag);
 
     @Inject(method = "isDamageable", at = @At("HEAD"), cancellable = true)

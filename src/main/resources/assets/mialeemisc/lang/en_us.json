@@ -2,10 +2,10 @@
   "itemGroup.mialeemisc.mialee_group" : "Mialee Misc",
   "flat_world_preset.mialeemisc.dev_ready" : "Dev Ready",
 
-  "gamerule.mialeemisc:disable_recipes_tag" : "Disable Recipes from Tag",
   "gamerule.mialeemisc:fireaspectsmelting" : "Fire Aspect Auto Smelting",
 
   "tag.mialeemisc.netherite_tools" : "Netherite Tools",
   "tag.mialeemisc.damage_immune" : "Damage Immune Items",
-  "tag.mialeemisc.uncraftable" : "Uncraftable Items"
+  "tag.mialeemisc.uncraftable" : "Uncraftable Items",
+  "tag.mialeemisc.unbreakable" : "Unbreakable Items"
 }

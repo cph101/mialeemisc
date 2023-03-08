@@ -1,7 +1,7 @@
 package xyz.amymialee.mialeemisc.items;
 
-import net.minecraft.item.Item;
+import net.minecraft.util.Identifier;
 
 public interface ICustomCooldownsItem {
-    Item[] mialeeMisc$getCooldownItems();
+    Identifier[] mialeeMisc$getCooldownIdentifiers();
 }
