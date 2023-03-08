@@ -20,7 +20,6 @@
     "accessors.ProjectileAttackGoalAccessor",
     "goals.BowAttackGoalMixin",
     "goals.CrossbowAttackGoalMixin",
-    "goals.CrossbowAttackTaskMixin",
     "goals.LlamaProjectileAttackGoalMixin",
     "goals.ProjectileAttackGoalMixin",
     "goals.TridentAttackGoalMixin",
