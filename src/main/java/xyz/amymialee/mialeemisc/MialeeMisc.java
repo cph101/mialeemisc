@@ -45,8 +45,8 @@ public class MialeeMisc implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        MialeeMiscConfig.loadConfig();
-        MialeeMiscConfig.saveConfig();
+//        MialeeMiscConfig.loadConfig();
+//        MialeeMiscConfig.saveConfig();
         ServerPlayNetworking.registerGlobalReceiver(targetPacket, (minecraftServer, serverPlayer, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
             int id = packetByteBuf.readInt();
             minecraftServer.execute(() -> {

@@ -46,19 +46,19 @@ public class FlatLevelGeneratorPresetsMixin {
                     new FlatChunkGeneratorLayer(63, Blocks.DEEPSLATE),
                     new FlatChunkGeneratorLayer(1, Blocks.BEDROCK)
             ));
-            for (Map.Entry<Identifier, FlatChunkGeneratorConfig> entry : MialeeMiscConfig.flatPresets.entrySet()) {
-                Identifier id = entry.getKey();
-                FlatChunkGeneratorConfig config = entry.getValue();
-                if (config.getStructureOverrides().isPresent()) FlatPresetRegistry.addEntry(new FlatPresetRegistry.FlatPresetEntry(
-                        id,
-                        Items.COMMAND_BLOCK,
-                        config.getBiome(),
-                        config.getStructureOverrides().get(),
-                        false,
-                        false,
-                        config.getLayers().toArray(new FlatChunkGeneratorLayer[0])
-                ));
-            }
+//            for (Map.Entry<Identifier, FlatChunkGeneratorConfig> entry : MialeeMiscConfig.flatPresets.entrySet()) {
+//                Identifier id = entry.getKey();
+//                FlatChunkGeneratorConfig config = entry.getValue();
+//                if (config.getStructureOverrides().isPresent()) FlatPresetRegistry.addEntry(new FlatPresetRegistry.FlatPresetEntry(
+//                        id,
+//                        Items.COMMAND_BLOCK,
+//                        config.getBiome(),
+//                        config.getStructureOverrides().get(),
+//                        false,
+//                        false,
+//                        config.getLayers().toArray(new FlatChunkGeneratorLayer[0])
+//                ));
+//            }
             for (FlatPresetRegistry.FlatPresetEntry entry : FlatPresetRegistry.getEntries()) {
                 RegistryKey<FlatLevelGeneratorPreset> registryKey = RegistryKey.of(Registry.FLAT_LEVEL_GENERATOR_PRESET_KEY, entry.identifier());
                 this.createAndRegister(registryKey, entry.icon(), entry.biome(), entry.structureSets(), entry.hasFeatures(), entry.hasLakes(), entry.layers());
