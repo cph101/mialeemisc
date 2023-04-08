@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
 import xyz.amymialee.mialeemisc.cooldowns.IdentifierCooldownManager;
 import xyz.amymialee.mialeemisc.cooldowns.ServerIdentifierCooldownManager;
+import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntityMixin implements IPlayerTargeting {

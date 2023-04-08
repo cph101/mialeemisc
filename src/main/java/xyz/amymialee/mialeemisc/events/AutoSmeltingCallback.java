@@ -11,16 +11,38 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public interface AutoSmeltingCallback {
-    Event<AutoSmeltingCallback> EVENT = EventFactory.createArrayBacked(AutoSmeltingCallback.class,
+
+    interface AutoSmeltingCallbackInterface {
+        ActionResult interact(BlockState state, World world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack stack);
+    }
+    Event<AutoSmeltingCallbackInterface> EVENT = EventFactory.createArrayBacked(AutoSmeltingCallbackInterface.class,
             (listeners) -> (state, world, pos, blockEntity, entity, stack) -> {
-                for (AutoSmeltingCallback listener : listeners) {
+                for (AutoSmeltingCallbackInterface listener : listeners) {
                     ActionResult result = listener.interact(state, world, pos, blockEntity, entity, stack);
                     if (result != ActionResult.PASS) {
                         return result;
                     }
                 }
                 return ActionResult.PASS;
-            });
 
-    ActionResult interact(BlockState state, World world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack stack);
+
+                () ->
+            }
+    );
+
+    interface AntherCallback {
+        ActionResult interact(BlockState state, World world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack stack);
+    }
+    Event<AntherCallback> EVENT2 = EventFactory.createArrayBacked(AntherCallback.class,
+            (listeners) -> (state, world, pos, blockEntity, entity, stack) -> {
+                for (AntherCallback listener : listeners) {
+                    ActionResult result = listener.interact(state, world, pos, blockEntity, entity, stack);
+                    if (result != ActionResult.PASS) {
+                        return result;
+                    }
+                }
+                return ActionResult.PASS;
+            }
+    );
 }
+

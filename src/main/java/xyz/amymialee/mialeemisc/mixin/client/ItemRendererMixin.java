@@ -12,7 +12,6 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -66,7 +65,7 @@ public abstract class ItemRendererMixin {
     @Inject(method = "getModel", at = @At("HEAD"), cancellable = true)
     private void mialeeMisc$heldItemModel(ItemStack stack, World world, LivingEntity entity, int seed, CallbackInfoReturnable<BakedModel> cir) {
         if (MialeeMiscClient.INVENTORY_ITEMS.contains(stack.getItem())) {
-            BakedModel bakedModel = this.models.getModelManager().getModel(new ModelIdentifier("minecraft:trident_in_hand#inventory"));
+            BakedModel bakedModel = this.models.getModelManager().getModel(new ModelIdentifier(new Identifier("minecraft:trident_in_hand"), "inventory"));
             ClientWorld clientWorld = world instanceof ClientWorld ? (ClientWorld) world : null;
             BakedModel bakedModel2 = bakedModel.getOverrides().apply(bakedModel, stack, clientWorld, entity, seed);
             cir.setReturnValue(bakedModel2 == null ? this.models.getModelManager().getMissingModel() : bakedModel2);

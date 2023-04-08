@@ -4,11 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,10 +15,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.amymialee.mialeemisc.cooldowns.IdentifierCooldownHolder;
-import xyz.amymialee.mialeemisc.events.AutoSmeltingCallback;
+import xyz.amymialee.mialeemisc.cooldowns.IdentifierCooldownManager;
 import xyz.amymialee.mialeemisc.items.ICustomAttackItem;
 import xyz.amymialee.mialeemisc.items.ICustomKillItem;
-import xyz.amymialee.mialeemisc.cooldowns.IdentifierCooldownManager;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements IdentifierCooldownHolder {

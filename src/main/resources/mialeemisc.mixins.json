@@ -7,8 +7,6 @@
     "BlockMixin",
     "EnchantmentMixin",
     "EntityMixin",
-    "FlatLevelGeneratorPresetsMixin",
-    "FlatLevelGeneratorPresetsMixin$RegistrarMixin",
     "ItemEntityMixin",
     "ItemStackMixin",
     "LivingEntityMixin",

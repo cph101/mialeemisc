@@ -11,14 +11,11 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.NetworkThreadUtils;
-import net.minecraft.network.packet.s2c.play.CooldownUpdateS2CPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import xyz.amymialee.mialeemisc.client.InventoryItemRenderer;
 import xyz.amymialee.mialeemisc.cooldowns.IdentifierCooldownHolder;
-import xyz.amymialee.mialeemisc.cooldowns.IdentifierCooldownManager;
 
 import java.util.Set;
 
@@ -44,13 +41,13 @@ public class MialeeMiscClient implements ClientModInitializer {
     }
 
     public static void registerInventoryItem(Item item) {
-        Identifier itemId = Registry.ITEM.getId(item);
+        Identifier itemId = Registries.ITEM.getId(item);
         InventoryItemRenderer inventoryItemRenderer = new InventoryItemRenderer(itemId);
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(inventoryItemRenderer);
         BuiltinItemRendererRegistry.INSTANCE.register(item, inventoryItemRenderer);
         ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> {
             out.accept(new ModelIdentifier(itemId, "inventory"));
-            out.accept(new ModelIdentifier(itemId + "_handheld", "inventory"));
+            out.accept(new ModelIdentifier(new Identifier(itemId.getNamespace(), itemId.getPath() + "_handheld"), "inventory"));
         });
         INVENTORY_ITEMS.add(item);
     }

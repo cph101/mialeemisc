@@ -43,7 +43,7 @@ public class InventoryItemRenderer implements BuiltinItemRendererRegistry.Dynami
             final MinecraftClient client = MinecraftClient.getInstance();
             this.itemRenderer = client.getItemRenderer();
             this.inventoryModel = client.getBakedModelManager().getModel(new ModelIdentifier(this.itemId, "inventory"));
-            this.worldModel = client.getBakedModelManager().getModel(new ModelIdentifier(this.itemId + "_handheld", "inventory"));
+            this.worldModel = client.getBakedModelManager().getModel(new ModelIdentifier(new Identifier(this.itemId.getNamespace(), this.itemId.getPath() + "_handheld"), "inventory"));
             applyProfiler.pop();
             applyProfiler.endTick();
         }, applyExecutor);
