@@ -24,24 +24,6 @@ public interface AutoSmeltingCallback {
                     }
                 }
                 return ActionResult.PASS;
-
-
-                () ->
-            }
-    );
-
-    interface AntherCallback {
-        ActionResult interact(BlockState state, World world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack stack);
-    }
-    Event<AntherCallback> EVENT2 = EventFactory.createArrayBacked(AntherCallback.class,
-            (listeners) -> (state, world, pos, blockEntity, entity, stack) -> {
-                for (AntherCallback listener : listeners) {
-                    ActionResult result = listener.interact(state, world, pos, blockEntity, entity, stack);
-                    if (result != ActionResult.PASS) {
-                        return result;
-                    }
-                }
-                return ActionResult.PASS;
             }
     );
 }
