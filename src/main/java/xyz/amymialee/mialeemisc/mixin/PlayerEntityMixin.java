@@ -53,17 +53,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Identifi
         }
     }
 
-    @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttributeValue(Lnet/minecraft/entity/attribute/EntityAttribute;)D"), cancellable = true)
     public void mialeeMisc$customAttacks(Entity target, CallbackInfo ci) {
-        if (!target.isAttackable()) {
-            return;
-        }
-        if (target.handleAttack(this)) {
-            return;
-        }
-        if (target instanceof EnderDragonPart part) {
-            target = part.owner;
-        }
         ItemStack main = this.getMainHandStack();
         if (main.getItem() instanceof ICustomAttackItem item) {
             if (item.mialeeMisc$customAttack(this, target)) {
