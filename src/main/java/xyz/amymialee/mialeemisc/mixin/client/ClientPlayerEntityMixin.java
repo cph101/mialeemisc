@@ -29,7 +29,7 @@ public class ClientPlayerEntityMixin implements IPlayerTargeting {
         this.lastTarget = target;
         this.targetDecayTime = 60;
         if (target != null) {
-            PacketByteBuf buf = PacketByteBufs.create();
+            var buf = PacketByteBufs.create();
             buf.writeInt(target.getId());
             ClientPlayNetworking.send(MialeeMisc.targetPacket, buf);
         }

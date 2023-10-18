@@ -17,8 +17,8 @@ public interface AutoSmeltingCallback {
     }
     Event<AutoSmeltingCallbackInterface> EVENT = EventFactory.createArrayBacked(AutoSmeltingCallbackInterface.class,
             (listeners) -> (state, world, pos, blockEntity, entity, stack) -> {
-                for (AutoSmeltingCallbackInterface listener : listeners) {
-                    ActionResult result = listener.interact(state, world, pos, blockEntity, entity, stack);
+                for (var listener : listeners) {
+                    var result = listener.interact(state, world, pos, blockEntity, entity, stack);
                     if (result != ActionResult.PASS) {
                         return result;
                     }

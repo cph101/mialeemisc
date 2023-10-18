@@ -8,8 +8,8 @@ import net.minecraft.util.ActionResult;
 public interface ImperceptibleCallback {
     Event<ImperceptibleCallback> EVENT = EventFactory.createArrayBacked(ImperceptibleCallback.class,
             (listeners) -> (entity) -> {
-                for (ImperceptibleCallback listener : listeners) {
-                    ActionResult result = listener.interact(entity);
+                for (var listener : listeners) {
+                    var result = listener.interact(entity);
                     if (result != ActionResult.PASS) {
                         return result;
                     }

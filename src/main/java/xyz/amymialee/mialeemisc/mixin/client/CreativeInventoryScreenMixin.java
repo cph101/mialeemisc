@@ -28,10 +28,10 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
     @Inject(method = "renderTabIcon", at = @At(value = "HEAD"), cancellable = true)
     protected void mialeeMisc$creativeTabIcon(MatrixStack matrices, ItemGroup group, CallbackInfo ci) {
         if (group instanceof MialeeItemGroup mialeeItemGroup) {
-            boolean onTop = group.getRow() == ItemGroup.Row.TOP;
-            int v = 0;
-            int x = this.x + this.getTabX(group);
-            int y = this.y;
+            var onTop = group.getRow() == ItemGroup.Row.TOP;
+            var v = 0;
+            var x = this.x + this.getTabX(group);
+            var y = this.y;
             if (group == selectedTab) {
                 v += 32;
             }
@@ -45,12 +45,12 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
             this.itemRenderer.zOffset = 100.0F;
             x += 5;
             y += 8 + (onTop ? 1 : -1);
-            int cycle = group.hashCode();
+            var cycle = group.hashCode();
             PlayerEntity player = MinecraftClient.getInstance().player;
             if (player != null) {
                 cycle += player.age;
             }
-            ItemStack itemStack = mialeeItemGroup.createIcon(cycle);
+            var itemStack = mialeeItemGroup.createIcon(cycle);
             this.itemRenderer.renderInGuiWithOverrides(itemStack, x, y);
             this.itemRenderer.renderGuiItemOverlay(this.textRenderer, itemStack, x, y);
             this.itemRenderer.zOffset = 0.0F;

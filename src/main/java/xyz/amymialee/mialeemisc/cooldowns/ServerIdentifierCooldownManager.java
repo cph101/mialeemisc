@@ -17,7 +17,7 @@ public class ServerIdentifierCooldownManager extends IdentifierCooldownManager {
     @Override
     protected void onCooldownUpdate(Identifier identifier, int duration) {
         super.onCooldownUpdate(identifier, duration);
-        PacketByteBuf buf = PacketByteBufs.create();
+        var buf = PacketByteBufs.create();
         buf.writeIdentifier(identifier);
         buf.writeInt(duration);
         ServerPlayNetworking.send(this.player, MialeeMisc.cooldownPacket, buf);
@@ -26,7 +26,7 @@ public class ServerIdentifierCooldownManager extends IdentifierCooldownManager {
     @Override
     protected void onCooldownUpdate(Identifier identifier) {
         super.onCooldownUpdate(identifier);
-        PacketByteBuf buf = PacketByteBufs.create();
+        var buf = PacketByteBufs.create();
         buf.writeIdentifier(identifier);
         buf.writeInt(0);
         ServerPlayNetworking.send(this.player, MialeeMisc.cooldownPacket, buf);

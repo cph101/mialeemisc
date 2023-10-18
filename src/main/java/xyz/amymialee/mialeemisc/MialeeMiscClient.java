@@ -26,12 +26,12 @@ public class MialeeMiscClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientPlayNetworking.registerGlobalReceiver(MialeeMisc.floatyPacket, (minecraftClient, playNetworkHandler, packetByteBuf, packetSender) -> {
-            ItemStack stack = packetByteBuf.readItemStack();
+            var stack = packetByteBuf.readItemStack();
             minecraftClient.execute(() -> minecraftClient.gameRenderer.showFloatingItem(stack));
         });
         ClientPlayNetworking.registerGlobalReceiver(MialeeMisc.cooldownPacket, (minecraftClient, playNetworkHandler, packetByteBuf, packetSender) -> {
-            Identifier identifier = packetByteBuf.readIdentifier();
-            int duration = packetByteBuf.readInt();
+            var identifier = packetByteBuf.readIdentifier();
+            var duration = packetByteBuf.readInt();
             minecraftClient.execute(() -> {
                 if (minecraftClient.player instanceof IdentifierCooldownHolder holder) {
                     holder.getIdentifierCooldownManager().set(identifier, duration);
@@ -41,8 +41,8 @@ public class MialeeMiscClient implements ClientModInitializer {
     }
 
     public static void registerInventoryItem(Item item) {
-        Identifier itemId = Registries.ITEM.getId(item);
-        InventoryItemRenderer inventoryItemRenderer = new InventoryItemRenderer(itemId);
+        var itemId = Registries.ITEM.getId(item);
+        var inventoryItemRenderer = new InventoryItemRenderer(itemId);
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(inventoryItemRenderer);
         BuiltinItemRendererRegistry.INSTANCE.register(item, inventoryItemRenderer);
         ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> {

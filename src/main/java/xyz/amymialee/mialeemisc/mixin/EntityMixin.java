@@ -28,9 +28,9 @@ public class EntityMixin implements IExtraData {
 
     @Inject(method = "onKilledOther", at = @At("TAIL"))
     private void mialeeMisc$customKills(ServerWorld world, LivingEntity other, CallbackInfoReturnable<Boolean> cir) {
-        Entity this2 = (Entity) (Object) this;
+        var this2 = (Entity) (Object) this;
         if (this2 instanceof LivingEntity living) {
-            ItemStack main = living.getMainHandStack();
+            var main = living.getMainHandStack();
             if (main.getItem() instanceof ICustomKillItem item) {
                 item.mialeeMisc$onKilledOther(living, main, other);
             }
@@ -49,7 +49,7 @@ public class EntityMixin implements IExtraData {
 
     @Override
     public void mialeeMisc$updateImperceptible() {
-        ActionResult result = ImperceptibleCallback.EVENT.invoker().interact((Entity) (Object) this);
+        var result = ImperceptibleCallback.EVENT.invoker().interact((Entity) (Object) this);
         if (result == ActionResult.SUCCESS) {
             this.dataTracker.set(IMPERCEPTIBLE, true);
         } else if (result == ActionResult.FAIL) {

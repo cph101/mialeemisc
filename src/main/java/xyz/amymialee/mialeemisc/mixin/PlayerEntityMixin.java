@@ -44,7 +44,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Identifi
 
     @Inject(method = "onKilledOther", at = @At("TAIL"))
     private void mialeeMisc$customKills(ServerWorld world, LivingEntity other, CallbackInfoReturnable<Boolean> cir) {
-        ItemStack main = this.getMainHandStack();
+        var main = this.getMainHandStack();
         if (main.getItem() instanceof ICustomKillItem item) {
             item.mialeeMisc$onKilledOther(this, main, other);
         }
@@ -61,7 +61,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Identifi
         if (target instanceof EnderDragonPart part) {
             target = part.owner;
         }
-        ItemStack main = this.getMainHandStack();
+        var main = this.getMainHandStack();
         if (main.getItem() instanceof ICustomAttackItem item) {
             if (item.mialeeMisc$customAttack(this, target)) {
                 ci.cancel();

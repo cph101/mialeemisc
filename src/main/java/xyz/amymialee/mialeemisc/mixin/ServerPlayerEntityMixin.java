@@ -56,7 +56,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntityMixin implemen
 
     @WrapOperation(method = "playerTick", at = @At(value = "INVOKE" , target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
     private Item mialeeMisc$nullCheck(ItemStack stack, Operation<Item> original) {
-        Item originalItem = original.call(stack);
+        var originalItem = original.call(stack);
         if (originalItem == null) {
             return Items.AIR;
         }

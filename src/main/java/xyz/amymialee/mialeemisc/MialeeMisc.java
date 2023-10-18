@@ -46,7 +46,7 @@ public class MialeeMisc implements ModInitializer {
     @Override
     public void onInitialize() {
         ServerPlayNetworking.registerGlobalReceiver(targetPacket, (minecraftServer, serverPlayer, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
-            int id = packetByteBuf.readInt();
+            var id = packetByteBuf.readInt();
             minecraftServer.execute(() -> {
                 if (serverPlayer instanceof IPlayerTargeting targeting) {
                     if (serverPlayer.getWorld().getEntityById(id) instanceof LivingEntity living) {
@@ -77,12 +77,12 @@ public class MialeeMisc implements ModInitializer {
         }
         MialeeItemGroup.create(id("mialee_group"))
                 .setIcon((i) -> {
-                    Item item = Registries.ITEM.get(MialeeMath.clampLoop(i / 2 + 1, 1, Registries.ITEM.size()));
+                    var item = Registries.ITEM.get(MialeeMath.clampLoop(i / 2 + 1, 1, Registries.ITEM.size()));
                     return new ItemStack(item);
                 })
                 .setItems(() -> {
-                    ArrayList<ItemStack> itemStacks = new ArrayList<>();
-                    for(Item item : Registries.ITEM) {
+                    var itemStacks = new ArrayList<ItemStack>();
+                    for(var item : Registries.ITEM) {
                         if (item == Items.AIR) continue;
                         itemStacks.add(item.getDefaultStack());
                     }
@@ -91,15 +91,15 @@ public class MialeeMisc implements ModInitializer {
     }
 
     public static ItemStack enchantStack(ItemStack stack, EnchantmentLevelEntry ... entry) {
-        for (EnchantmentLevelEntry enchantmentLevelEntry : entry) {
+        for (var enchantmentLevelEntry : entry) {
             stack.addEnchantment(enchantmentLevelEntry.enchantment, enchantmentLevelEntry.level);
         }
         return stack;
     }
 
     public static ItemStack enchantedBook(EnchantmentLevelEntry ... entry) {
-        ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
-        for (EnchantmentLevelEntry enchantmentLevelEntry : entry) {
+        var stack = new ItemStack(Items.ENCHANTED_BOOK);
+        for (var enchantmentLevelEntry : entry) {
             EnchantedBookItem.addEnchantment(stack, enchantmentLevelEntry);
         }
         return stack;

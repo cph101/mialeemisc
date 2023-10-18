@@ -15,7 +15,7 @@ import xyz.amymialee.mialeemisc.items.ICrossbowPoseItem;
 public class PlayerEntityRendererMixin {
     @Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
     private static void mialeeMisc$crossbowPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
-        ItemStack itemStack = abstractClientPlayerEntity.getStackInHand(hand);
+        var itemStack = abstractClientPlayerEntity.getStackInHand(hand);
         if (itemStack.getItem() instanceof ICrossbowPoseItem poseItem) {
             if (poseItem.mialeeMisc$shouldHoldCrossbowHold(abstractClientPlayerEntity, hand)) {
                 cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);

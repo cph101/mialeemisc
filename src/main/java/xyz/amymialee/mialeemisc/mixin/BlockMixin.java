@@ -30,10 +30,10 @@ public abstract class BlockMixin {
     @Inject(method = "dropStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/entity/BlockEntity;Lnet/minecraft/entity/Entity;Lnet/minecraft/item/ItemStack;)V", at = @At("HEAD"), cancellable = true)
     private static void mialeeMisc$autoSmelting(BlockState state, World world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack stack, CallbackInfo ci) {
         if (world instanceof ServerWorld serverWorld ) {
-            ActionResult result = AutoSmeltingCallback.EVENT.invoker().interact(state, world, pos, blockEntity, entity, stack);
+            var result = AutoSmeltingCallback.EVENT.invoker().interact(state, world, pos, blockEntity, entity, stack);
             if (result == ActionResult.SUCCESS) {
                 Block.getDroppedStacks(state, serverWorld, pos, blockEntity, entity, stack).forEach((stackX) -> {
-                    ItemStack smelted = simulateSmelt(world, stackX);
+                    var smelted = simulateSmelt(world, stackX);
                     if (smelted != null) {
                         Block.dropStack(world, pos, smelted);
                         world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F);
@@ -55,10 +55,10 @@ public abstract class BlockMixin {
     private static ItemStack simulateSmelt(World world, ItemStack input) {
         fakeFurnace.clear();
         fakeFurnace.setStack(0, input);
-        List<SmeltingRecipe> recipes = world.getRecipeManager().getAllMatches(RecipeType.SMELTING, fakeFurnace, world);
-        for (SmeltingRecipe recipe : recipes) {
+        var recipes = world.getRecipeManager().getAllMatches(RecipeType.SMELTING, fakeFurnace, world);
+        for (var recipe : recipes) {
             if (recipe.getOutput() != null && !recipe.getOutput().isEmpty()) {
-                ItemStack output = recipe.getOutput().copy();
+                var output = recipe.getOutput().copy();
                 output.setCount(output.getCount() * input.getCount());
                 return output;
             }

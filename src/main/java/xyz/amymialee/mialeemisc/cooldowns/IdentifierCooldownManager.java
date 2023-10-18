@@ -24,10 +24,10 @@ public class IdentifierCooldownManager {
     }
 
     public float getCooldownProgress(Identifier identifier, float tickDelta) {
-        Entry entry = this.entries.get(identifier);
+        var entry = this.entries.get(identifier);
         if (entry != null) {
-            float f = (float)(entry.endTick - entry.startTick);
-            float g = (float)entry.endTick - ((float)this.tick + tickDelta);
+            var f = (float)(entry.endTick - entry.startTick);
+            var g = (float)entry.endTick - ((float)this.tick + tickDelta);
             return MathHelper.clamp(g / f, 0.0F, 1.0F);
         } else {
             return 0.0F;
@@ -37,9 +37,9 @@ public class IdentifierCooldownManager {
     public void update() {
         ++this.tick;
         if (!this.entries.isEmpty()) {
-            Iterator<Map.Entry<Identifier, Entry>> iterator = this.entries.entrySet().iterator();
+            var iterator = this.entries.entrySet().iterator();
             while(iterator.hasNext()) {
-                java.util.Map.Entry<Identifier, Entry> entry = iterator.next();
+                var entry = iterator.next();
                 if (entry.getValue().endTick <= this.tick) {
                     iterator.remove();
                     this.onCooldownUpdate(entry.getKey());

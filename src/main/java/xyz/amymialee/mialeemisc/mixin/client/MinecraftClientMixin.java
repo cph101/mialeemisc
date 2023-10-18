@@ -15,6 +15,7 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -44,7 +45,7 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/tutorial/TutorialManager;tick(Lnet/minecraft/client/world/ClientWorld;Lnet/minecraft/util/hit/HitResult;)V"))
     public void mialeeMisc$setLastTarget(CallbackInfo ci) {
-        Entity camera = this.getCameraEntity();
+        var camera = this.getCameraEntity();
         if (this.player == null) {
             return;
         }
@@ -55,17 +56,17 @@ public abstract class MinecraftClientMixin {
             return;
         }
         double distanceCap = 128f * 128f;
-        Vec3d cameraPos = camera.getCameraPosVec(1.0f);
-        Vec3d cameraRot = camera.getRotationVec(1.0f);
-        Vec3d cameraTarget = cameraPos.add(cameraRot.multiply(distanceCap));
-        Box box = camera.getBoundingBox().stretch(cameraTarget).expand(1.0, 1.0, 1.0);
+        var cameraPos = camera.getCameraPosVec(1.0f);
+        var cameraRot = camera.getRotationVec(1.0f);
+        var cameraTarget = cameraPos.add(cameraRot.multiply(distanceCap));
+        var box = camera.getBoundingBox().stretch(cameraTarget).expand(1.0, 1.0, 1.0);
         Predicate<Entity> predicate = this::mialeeMisc$isValidTarget;
         if (this.player.getMainHandStack().getItem() instanceof ICustomTrackingItem item) {
             predicate = item.mialeeMisc$getTrackingPredicate(this.player);
         }
-        EntityHitResult entityHitResult = mialeeMisc$raycast(this.player, box, predicate);
+        var entityHitResult = mialeeMisc$raycast(this.player, box, predicate);
         if (entityHitResult != null) {
-            Entity target = entityHitResult.getEntity();
+            var target = entityHitResult.getEntity();
             if (target instanceof LivingEntity living) {
                 if (this.player instanceof IPlayerTargeting targeting) {
                     targeting.mialeeMisc$setLastTarget(living);
@@ -74,6 +75,7 @@ public abstract class MinecraftClientMixin {
         }
     }
 
+    @Unique
     public boolean mialeeMisc$isValidTarget(@Nullable Entity target) {
         if (!(target instanceof LivingEntity living)) return false;
         if (this.player == null) return false;
@@ -87,16 +89,17 @@ public abstract class MinecraftClientMixin {
         return target.canHit();
     }
 
+    @Unique
     private static EntityHitResult mialeeMisc$raycast(Entity player, Box box, Predicate<Entity> predicate) {
         Entity target = null;
-        double targetDistance = 0.01;
-        Vec3d rotationVec = player.getRotationVector();
-        for (Entity possibleTarget : player.world.getEntitiesByClass(Entity.class, box, predicate)) {
+        var targetDistance = 0.01;
+        var rotationVec = player.getRotationVector();
+        for (var possibleTarget : player.world.getEntitiesByClass(Entity.class, box, predicate)) {
             if (possibleTarget.getRootVehicle() == player.getRootVehicle()) {
                 continue;
             }
-            Vec3d playerDistance = possibleTarget.getPos().add(0, possibleTarget.getHeight() / 2, 0).subtract(player.getEyePos());
-            double distance = 1 - playerDistance.normalize().dotProduct(rotationVec);
+            var playerDistance = possibleTarget.getPos().add(0, possibleTarget.getHeight() / 2, 0).subtract(player.getEyePos());
+            var distance = 1 - playerDistance.normalize().dotProduct(rotationVec);
             if (distance > targetDistance) {
                 continue;
             }

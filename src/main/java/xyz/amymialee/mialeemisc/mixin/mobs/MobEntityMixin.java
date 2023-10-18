@@ -31,7 +31,7 @@ public abstract class MobEntityMixin extends LivingEntity {
         if (target instanceof EnderDragonPart) {
             target = ((EnderDragonPart)target).owner;
         }
-        ItemStack main = this.getEquippedStack(EquipmentSlot.MAINHAND);
+        var main = this.getEquippedStack(EquipmentSlot.MAINHAND);
         if (main.getItem() instanceof ICustomAttackItem item) {
             if (item.mialeeMisc$customAttack(this, target)) {
                 cir.setReturnValue(true);
