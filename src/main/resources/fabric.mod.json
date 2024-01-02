@@ -13,9 +13,6 @@
   "icon": "assets/mialeemisc/icon.png",
   "environment": "*",
   "entrypoints": {
-    "preLaunch": [
-      "xyz.amymialee.mialeemisc.MialeeMiscPreLaunch"
-    ],
     "client": [
       "xyz.amymialee.mialeemisc.MialeeMiscClient"
     ],

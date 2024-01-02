@@ -57,8 +57,9 @@ public abstract class BlockMixin {
         fakeFurnace.setStack(0, input);
         var recipes = world.getRecipeManager().getAllMatches(RecipeType.SMELTING, fakeFurnace, world);
         for (var recipe : recipes) {
-            if (recipe.getOutput() != null && !recipe.getOutput().isEmpty()) {
-                var output = recipe.getOutput().copy();
+            ItemStack baseOutput = recipe.getOutput(world.getRegistryManager());
+            if (baseOutput != null && !baseOutput.isEmpty()) {
+                var output = baseOutput.copy();
                 output.setCount(output.getCount() * input.getCount());
                 return output;
             }
