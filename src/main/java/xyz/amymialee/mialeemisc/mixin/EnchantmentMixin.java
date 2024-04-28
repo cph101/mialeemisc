@@ -15,12 +15,12 @@ import java.util.Arrays;
 
 @Mixin(Enchantment.class)
 public class EnchantmentMixin {
-    @Shadow @Final public EnchantmentTarget type;
+    @Shadow @Final public EnchantmentTarget target;
 
     @Inject(method = "isAcceptableItem", at = @At("HEAD"), cancellable = true)
     public void mialeeMisc$acceptable(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (stack.getItem() instanceof ICustomEnchantTargetsItem enchants) {
-            if (Arrays.stream(enchants.mialeeMisc$getEnchantTargets()).toList().contains(this.type)) {
+            if (Arrays.stream(enchants.mialeeMisc$getEnchantTargets()).toList().contains(this.target)) {
                 cir.setReturnValue(true);
             }
             cir.setReturnValue(false);

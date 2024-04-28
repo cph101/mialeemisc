@@ -94,7 +94,7 @@ public abstract class MinecraftClientMixin {
         Entity target = null;
         var targetDistance = 0.01;
         var rotationVec = player.getRotationVector();
-        for (var possibleTarget : player.world.getEntitiesByClass(Entity.class, box, predicate)) {
+        for (var possibleTarget : player.getWorld().getEntitiesByClass(Entity.class, box, predicate)) {
             if (possibleTarget.getRootVehicle() == player.getRootVehicle()) {
                 continue;
             }

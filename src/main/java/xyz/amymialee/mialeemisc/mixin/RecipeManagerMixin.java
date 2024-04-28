@@ -21,7 +21,7 @@ public class RecipeManagerMixin {
     @Inject(method = "getFirstMatch(Lnet/minecraft/recipe/RecipeType;Lnet/minecraft/inventory/Inventory;Lnet/minecraft/world/World;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
     private <C extends Inventory, T extends Recipe<C>> void mialeeMisc$killRecipes(RecipeType<T> type, C inventory, World world, CallbackInfoReturnable<Optional<T>> cir) {
         var optional = cir.getReturnValue();
-        if (optional.isPresent() && optional.get().getOutput().isIn(MialeeMisc.UNCRAFTABLE)) {
+        if (optional.isPresent() && optional.get().getOutput(world.getRegistryManager()).isIn(MialeeMisc.UNCRAFTABLE)) {
             cir.setReturnValue(Optional.empty());
         }
     }
@@ -29,7 +29,7 @@ public class RecipeManagerMixin {
     @Inject(method = "getFirstMatch(Lnet/minecraft/recipe/RecipeType;Lnet/minecraft/inventory/Inventory;Lnet/minecraft/world/World;Lnet/minecraft/util/Identifier;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
     private <C extends Inventory, T extends Recipe<C>> void mialeeMisc$killRecipes(RecipeType<T> type, C inventory, World world, @Nullable Identifier id, CallbackInfoReturnable<Optional<Pair<Identifier, T>>> cir) {
         var optional = cir.getReturnValue();
-        if (optional.isPresent() && optional.get().getSecond().getOutput().isIn(MialeeMisc.UNCRAFTABLE)) {
+        if (optional.isPresent() && optional.get().getSecond().getOutput(world.getRegistryManager()).isIn(MialeeMisc.UNCRAFTABLE)) {
             cir.setReturnValue(Optional.empty());
         }
     }
