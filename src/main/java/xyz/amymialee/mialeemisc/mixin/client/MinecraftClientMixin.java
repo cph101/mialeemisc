@@ -8,6 +8,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Box;
@@ -23,6 +24,7 @@ import xyz.amymialee.mialeemisc.MialeeMisc;
 import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
 import xyz.amymialee.mialeemisc.items.IClickConsumingItem;
 import xyz.amymialee.mialeemisc.items.ICustomTrackingItem;
+import xyz.amymialee.mialeemisc.network.ClickConsumePacket;
 
 import java.util.function.Predicate;
 
@@ -36,7 +38,7 @@ public abstract class MinecraftClientMixin {
     private void mialeeMisc$cancelAttack(CallbackInfoReturnable<Boolean> cir) {
         if (this.player != null) {
             if (this.player.getMainHandStack().getItem() instanceof IClickConsumingItem) {
-                ClientPlayNetworking.send(MialeeMisc.clickConsumePacket, PacketByteBufs.empty());
+                ClientPlayNetworking.send(new ClickConsumePacket());
                 cir.setReturnValue(false);
             }
         }
@@ -91,7 +93,7 @@ public abstract class MinecraftClientMixin {
         Entity target = null;
         double targetDistance = 0.01;
         Vec3d rotationVec = player.getRotationVector();
-        for (Entity possibleTarget : player.world.getEntitiesByClass(Entity.class, box, predicate)) {
+        for (Entity possibleTarget : player.getWorld().getEntitiesByClass(Entity.class, box, predicate)) {
             if (possibleTarget.getRootVehicle() == player.getRootVehicle()) {
                 continue;
             }

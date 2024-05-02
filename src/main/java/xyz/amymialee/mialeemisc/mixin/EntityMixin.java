@@ -1,5 +1,7 @@
 package xyz.amymialee.mialeemisc.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
@@ -14,7 +16,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.amymialee.mialeemisc.entities.IExtraData;
 import xyz.amymialee.mialeemisc.events.ImperceptibleCallback;
@@ -37,9 +39,11 @@ public class EntityMixin implements IExtraData {
         }
     }
 
-    @Inject(method = "<init>", at = @At("TAIL"))
-    private void mialeeMisc$extraData(CallbackInfo ci) {
-        this.dataTracker.startTracking(IMPERCEPTIBLE, false);
+    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/data/DataTracker$Builder;add(Lnet/minecraft/entity/data/TrackedData;Ljava/lang/Object;)Lnet/minecraft/entity/data/DataTracker$Builder;", ordinal = 7))
+    private <T> DataTracker.Builder mialeeMisc$extraData(DataTracker.Builder builder, TrackedData<T> data, T value) {
+        builder.add(data, value);
+        builder.add(IMPERCEPTIBLE, false);
+        return builder;
     }
 
     @Override

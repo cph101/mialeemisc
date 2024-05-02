@@ -23,11 +23,11 @@ public class CrossbowAttackGoalMixin {
         if (actor != null) this.entity = actor;
     }
 
-    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/RangedAttackMob;attack(Lnet/minecraft/entity/LivingEntity;F)V"))
+    /*@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/RangedAttackMob;shootAt(Lnet/minecraft/entity/LivingEntity;F)V"))
     private void mialeeMisc$universalRangedAttack(RangedAttackMob attacker, LivingEntity target, float pullProgress, Operation<Void> original) {
         if (attacker instanceof LivingEntity living && IUniversalRangedItem.tryRangedAttack(living, target, pullProgress)) return;
         original.call(attacker, target, pullProgress);
-    }
+    }*/
 
     @Inject(method = "isEntityHoldingCrossbow", at = @At("HEAD"), cancellable = true)
     private void mialeeMisc$moreCrossbows(CallbackInfoReturnable<Boolean> cir) {

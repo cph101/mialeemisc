@@ -16,6 +16,8 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import xyz.amymialee.mialeemisc.client.InventoryItemRenderer;
 import xyz.amymialee.mialeemisc.cooldowns.IdentifierCooldownHolder;
+import xyz.amymialee.mialeemisc.network.CooldownPacket;
+import xyz.amymialee.mialeemisc.network.FloatyPacket;
 
 import java.util.Set;
 
@@ -25,15 +27,15 @@ public class MialeeMiscClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ClientPlayNetworking.registerGlobalReceiver(MialeeMisc.floatyPacket, (minecraftClient, playNetworkHandler, packetByteBuf, packetSender) -> {
-            ItemStack stack = packetByteBuf.readItemStack();
-            minecraftClient.execute(() -> minecraftClient.gameRenderer.showFloatingItem(stack));
+        ClientPlayNetworking.registerGlobalReceiver(FloatyPacket.ID, (payload, context) -> {
+            ItemStack stack = payload.stack();
+            context.client().execute(() -> context.client().gameRenderer.showFloatingItem(stack));
         });
-        ClientPlayNetworking.registerGlobalReceiver(MialeeMisc.cooldownPacket, (minecraftClient, playNetworkHandler, packetByteBuf, packetSender) -> {
-            Identifier identifier = packetByteBuf.readIdentifier();
-            int duration = packetByteBuf.readInt();
-            minecraftClient.execute(() -> {
-                if (minecraftClient.player instanceof IdentifierCooldownHolder holder) {
+        ClientPlayNetworking.registerGlobalReceiver(CooldownPacket.ID, (payload, context) -> {
+            Identifier identifier = payload.id();
+            int duration = payload.duration();
+            context.client().execute(() -> {
+                if (context.player() instanceof IdentifierCooldownHolder holder) {
                     holder.getIdentifierCooldownManager().set(identifier, duration);
                 }
             });

@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.server.world.ServerWorld;
@@ -55,10 +56,10 @@ public abstract class BlockMixin {
     private static ItemStack simulateSmelt(World world, ItemStack input) {
         fakeFurnace.clear();
         fakeFurnace.setStack(0, input);
-        List<SmeltingRecipe> recipes = world.getRecipeManager().getAllMatches(RecipeType.SMELTING, fakeFurnace, world);
+        List<SmeltingRecipe> recipes = world.getRecipeManager().getAllMatches(RecipeType.SMELTING, fakeFurnace, world).stream().map(RecipeEntry::value).toList();
         for (SmeltingRecipe recipe : recipes) {
-            if (recipe.getOutput() != null && !recipe.getOutput().isEmpty()) {
-                ItemStack output = recipe.getOutput().copy();
+            if (recipe.getResult(world.getRecipeManager().registryLookup) != null && !recipe.getResult(world.getRecipeManager().registryLookup).isEmpty()) {
+                ItemStack output = recipe.getResult(world.getRecipeManager().registryLookup).copy();
                 output.setCount(output.getCount() * input.getCount());
                 return output;
             }

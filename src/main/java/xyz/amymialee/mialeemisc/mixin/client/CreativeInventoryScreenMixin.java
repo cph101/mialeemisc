@@ -1,6 +1,7 @@
 package xyz.amymialee.mialeemisc.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -9,6 +10,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,28 +25,36 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
     @Shadow private static ItemGroup selectedTab;
     @Shadow protected abstract int getTabX(ItemGroup group);
 
+    @Shadow @Final private static Identifier[] TAB_TOP_SELECTED_TEXTURES;
+
+    @Shadow @Final private static Identifier[] TAB_BOTTOM_SELECTED_TEXTURES;
+
+    @Shadow @Final private static Identifier[] TAB_BOTTOM_UNSELECTED_TEXTURES;
+
+    @Shadow @Final private static Identifier[] TAB_TOP_UNSELECTED_TEXTURES;
+
     public CreativeInventoryScreenMixin(CreativeInventoryScreen.CreativeScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
         super(screenHandler, playerInventory, text);
     }
 
     @Inject(method = "renderTabIcon", at = @At(value = "HEAD"), cancellable = true)
-    protected void mialeeMisc$creativeTabIcon(MatrixStack matrices, ItemGroup group, CallbackInfo ci) {
+    protected void mialeeMisc$creativeTabIcon(DrawContext context, ItemGroup group, CallbackInfo ci) {
         if (group instanceof MialeeItemGroup mialeeItemGroup) {
             boolean onTop = group.getRow() == ItemGroup.Row.TOP;
-            int v = 0;
+            boolean isSelected = group == selectedTab;
+            int v = group.getColumn();
             int x = this.x + this.getTabX(group);
-            int y = this.y;
-            if (group == selectedTab) {
-                v += 32;
-            }
+            int y = this.y - (onTop ? 28 : -(this.backgroundHeight - 4));
+            Identifier[] identifiers;
             if (onTop) {
-                y -= 28;
+                identifiers = isSelected ? TAB_TOP_SELECTED_TEXTURES : TAB_TOP_UNSELECTED_TEXTURES;
             } else {
-                v += 64;
-                y += this.backgroundHeight - 4;
+                identifiers = isSelected ? TAB_BOTTOM_SELECTED_TEXTURES : TAB_BOTTOM_UNSELECTED_TEXTURES;
             }
-            this.drawTexture(matrices, x, y, group.getColumn() * 26, v, 26, 32);
-            this.itemRenderer.zOffset = 100.0F;
+            context.drawGuiTexture(identifiers[MathHelper.clamp(v, 0, identifiers.length)], x, y, 26, 32);
+            context.getMatrices().push();
+            context.getMatrices().translate(0.0F, 0.0F, 100.0F);
+
             x += 5;
             y += 8 + (onTop ? 1 : -1);
             int cycle = group.hashCode();
@@ -51,9 +63,9 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
                 cycle += player.age;
             }
             ItemStack itemStack = mialeeItemGroup.createIcon(cycle);
-            this.itemRenderer.renderInGuiWithOverrides(itemStack, x, y);
-            this.itemRenderer.renderGuiItemOverlay(this.textRenderer, itemStack, x, y);
-            this.itemRenderer.zOffset = 0.0F;
+            context.drawItem(itemStack, this.x, this.y);
+            context.drawItemInSlot(this.textRenderer, itemStack, this.x, this.y);
+            //context.off = 0.0F;
             ci.cancel();
         }
     }

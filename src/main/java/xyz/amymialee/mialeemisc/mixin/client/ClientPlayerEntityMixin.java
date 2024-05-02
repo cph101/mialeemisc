@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.amymialee.mialeemisc.MialeeMisc;
 import xyz.amymialee.mialeemisc.entities.IPlayerTargeting;
+import xyz.amymialee.mialeemisc.network.TargetPacket;
 
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin implements IPlayerTargeting {
@@ -29,9 +30,9 @@ public class ClientPlayerEntityMixin implements IPlayerTargeting {
         this.lastTarget = target;
         this.targetDecayTime = 60;
         if (target != null) {
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeInt(target.getId());
-            ClientPlayNetworking.send(MialeeMisc.targetPacket, buf);
+            ClientPlayNetworking.send(
+                    new TargetPacket(target.getId())
+            );
         }
     }
 

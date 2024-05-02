@@ -6,6 +6,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import xyz.amymialee.mialeemisc.MialeeMisc;
+import xyz.amymialee.mialeemisc.network.CooldownPacket;
 
 public class ServerIdentifierCooldownManager extends IdentifierCooldownManager {
     private final ServerPlayerEntity player;
@@ -17,18 +18,12 @@ public class ServerIdentifierCooldownManager extends IdentifierCooldownManager {
     @Override
     protected void onCooldownUpdate(Identifier identifier, int duration) {
         super.onCooldownUpdate(identifier, duration);
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeIdentifier(identifier);
-        buf.writeInt(duration);
-        ServerPlayNetworking.send(this.player, MialeeMisc.cooldownPacket, buf);
+        ServerPlayNetworking.send(this.player, new CooldownPacket(identifier, duration));
     }
 
     @Override
     protected void onCooldownUpdate(Identifier identifier) {
         super.onCooldownUpdate(identifier);
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeIdentifier(identifier);
-        buf.writeInt(0);
-        ServerPlayNetworking.send(this.player, MialeeMisc.cooldownPacket, buf);
+        ServerPlayNetworking.send(this.player, new CooldownPacket(identifier, 0));
     }
 }

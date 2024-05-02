@@ -1,7 +1,6 @@
 package xyz.amymialee.mialeemisc.mixin;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,12 +14,11 @@ import java.util.Arrays;
 
 @Mixin(Enchantment.class)
 public class EnchantmentMixin {
-    @Shadow @Final public EnchantmentTarget type;
 
     @Inject(method = "isAcceptableItem", at = @At("HEAD"), cancellable = true)
     public void mialeeMisc$acceptable(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (stack.getItem() instanceof ICustomEnchantTargetsItem enchants) {
-            if (Arrays.stream(enchants.mialeeMisc$getEnchantTargets()).toList().contains(this.type)) {
+            if (Arrays.stream(enchants.mialeeMisc$getSupportedEnchants()).toList().contains(this)) {
                 cir.setReturnValue(true);
             }
             cir.setReturnValue(false);

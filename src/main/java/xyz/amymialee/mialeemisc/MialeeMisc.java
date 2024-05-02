@@ -3,8 +3,11 @@ package xyz.amymialee.mialeemisc;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.enchantment.Enchantments;
@@ -13,7 +16,10 @@ import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
@@ -25,18 +31,19 @@ import xyz.amymialee.mialeemisc.events.AutoSmeltingCallback;
 import xyz.amymialee.mialeemisc.itemgroup.MialeeItemGroup;
 import xyz.amymialee.mialeemisc.items.IAutoSmeltingItem;
 import xyz.amymialee.mialeemisc.items.IClickConsumingItem;
+import xyz.amymialee.mialeemisc.network.ClickConsumePacket;
+import xyz.amymialee.mialeemisc.network.CooldownPacket;
+import xyz.amymialee.mialeemisc.network.FloatyPacket;
+import xyz.amymialee.mialeemisc.network.TargetPacket;
 import xyz.amymialee.mialeemisc.util.MialeeMath;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public class MialeeMisc implements ModInitializer {
     public static final String MOD_ID = "mialeemisc";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final Identifier clickConsumePacket = id("click_consume");
-    public static final Identifier targetPacket = id("target");
-    public static final Identifier floatyPacket = id("floaty");
-    public static final Identifier cooldownPacket = id("cooldown");
     public static final TagKey<Item> DAMAGE_IMMUNE = TagKey.of(Registries.ITEM.getKey(), id("damage_immune"));
     public static final TagKey<Item> NETHERITE_TOOLS = TagKey.of(Registries.ITEM.getKey(), id("netherite_tools"));
     public static final TagKey<Item> UNCRAFTABLE = TagKey.of(Registries.ITEM.getKey(), id("uncraftable"));
@@ -45,19 +52,25 @@ public class MialeeMisc implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ServerPlayNetworking.registerGlobalReceiver(targetPacket, (minecraftServer, serverPlayer, serverPlayNetworkHandler, packetByteBuf, packetSender) -> {
-            int id = packetByteBuf.readInt();
-            minecraftServer.execute(() -> {
-                if (serverPlayer instanceof IPlayerTargeting targeting) {
-                    if (serverPlayer.getWorld().getEntityById(id) instanceof LivingEntity living) {
+        PayloadTypeRegistry.playC2S().register(TargetPacket.ID, TargetPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(ClickConsumePacket.ID, ClickConsumePacket.CODEC);
+
+        PayloadTypeRegistry.playS2C().register(FloatyPacket.ID, FloatyPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(CooldownPacket.ID, CooldownPacket.CODEC);
+
+        ServerPlayNetworking.registerGlobalReceiver(TargetPacket.ID, (payload, context) -> {
+            int id = payload.entityId();
+            context.player().getServer().execute(() -> {
+                if (context.player() instanceof IPlayerTargeting targeting) {
+                    if (context.player().getWorld().getEntityById(id) instanceof LivingEntity living) {
                         targeting.mialeeMisc$setLastTarget(living);
                     }
                 }
             });
         });
-        ServerPlayNetworking.registerGlobalReceiver(clickConsumePacket, (minecraftServer, serverPlayer, serverPlayNetworkHandler, packetByteBuf, packetSender) -> minecraftServer.execute(() -> {
-            if (serverPlayer.getMainHandStack().getItem() instanceof IClickConsumingItem item) {
-                item.mialeeMisc$doAttack(serverPlayer);
+        ServerPlayNetworking.registerGlobalReceiver(ClickConsumePacket.ID, (payload, context) -> context.player().getServer().execute(() -> {
+            if (context.player().getMainHandStack().getItem() instanceof IClickConsumingItem item) {
+                item.mialeeMisc$doAttack(context.player());
             }
         }));
         AutoSmeltingCallback.EVENT.register((stateX, worldX, posX, blockEntityX, entityX, stackX) -> {
@@ -99,14 +112,18 @@ public class MialeeMisc implements ModInitializer {
 
     public static ItemStack enchantedBook(EnchantmentLevelEntry ... entry) {
         ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
-        for (EnchantmentLevelEntry enchantmentLevelEntry : entry) {
-            EnchantedBookItem.addEnchantment(stack, enchantmentLevelEntry);
-        }
+        ItemEnchantmentsComponent.Builder builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
+        Arrays.stream(entry).forEach((levelEntry) -> builder.add(levelEntry.enchantment, levelEntry.level));
+        stack.set(DataComponentTypes.STORED_ENCHANTMENTS, builder.build());
         return stack;
     }
 
     public static Identifier id(String ... path) {
         return namedId(MOD_ID, path);
+    }
+
+    public static <T extends CustomPayload> CustomPayload.Id<T> networkId(String ... path) {
+        return new CustomPayload.Id<>(namedId(MOD_ID, path));
     }
 
     public static Identifier namedId(String namespace, String ... path) {

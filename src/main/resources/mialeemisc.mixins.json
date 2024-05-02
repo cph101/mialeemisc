@@ -32,6 +32,7 @@
   "client": [
     "client.ClientPlayerEntityMixin",
     "client.CreativeInventoryScreenMixin",
+    "client.DrawContextMixin",
     "client.EntityRenderDispatcherMixin",
     "client.ItemRendererMixin",
     "client.MinecraftClientMixin",

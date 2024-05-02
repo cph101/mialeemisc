@@ -1,7 +1,7 @@
 package xyz.amymialee.mialeemisc.items;
 
-import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.enchantment.Enchantment;
 
 public interface ICustomEnchantTargetsItem {
-    EnchantmentTarget[] mialeeMisc$getEnchantTargets();
+    Enchantment[] mialeeMisc$getSupportedEnchants();
 }

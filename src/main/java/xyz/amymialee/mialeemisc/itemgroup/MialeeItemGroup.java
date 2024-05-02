@@ -1,10 +1,13 @@
 package xyz.amymialee.mialeemisc.itemgroup;
 
-import net.fabricmc.fabric.api.itemgroup.v1.IdentifiableItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
+import net.fabricmc.fabric.impl.item.FabricItemInternals;
 import net.fabricmc.fabric.impl.itemgroup.FabricItemGroup;
-import net.fabricmc.fabric.impl.itemgroup.ItemGroupHelper;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import xyz.amymialee.mialeemisc.MialeeMisc;
@@ -15,15 +18,15 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class MialeeItemGroup extends ItemGroup implements IdentifiableItemGroup, FabricItemGroup {
+public class MialeeItemGroup extends ItemGroup implements FabricItemGroup {
     private Function<Integer, ItemStack> stackSupplier = (i) -> this.displayStacks.toArray(new ItemStack[0])[i % this.displayStacks.size()];
     private Identifier identifier;
     private int page = -1;
 
     public MialeeItemGroup(Identifier identifier) {
-        super(null, -1, ItemGroup.Type.CATEGORY, Text.empty(), () -> ItemStack.EMPTY, (enabledFeatures, entries, operatorEnabled) -> {});
-        this.setId(identifier);
-        ItemGroupHelper.appendItemGroup(this);
+        super(null, -1, ItemGroup.Type.CATEGORY, Text.empty(), () -> ItemStack.EMPTY, (context, entries) -> {});
+        this.setIdentifier(identifier);
+        Registry.register(Registries.ITEM_GROUP, identifier, this);
     }
 
     public static MialeeItemGroup create(Identifier identifier) {
@@ -75,16 +78,15 @@ public class MialeeItemGroup extends ItemGroup implements IdentifiableItemGroup,
         this.page = page;
     }
 
-    @Override
-    public Identifier getId() {
+
+    public Identifier getIdentifier() {
         if (this.identifier == null) {
-            this.setId(MialeeMisc.id("unidentified_" + UUID.randomUUID()));
+            this.setIdentifier(MialeeMisc.id("unidentified_" + UUID.randomUUID()));
         }
         return this.identifier;
     }
 
-    @Override
-    public void setId(Identifier identifier) {
+    public void setIdentifier(Identifier identifier) {
         this.identifier = identifier;
     }
 }

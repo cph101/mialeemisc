@@ -1,7 +1,6 @@
 package xyz.amymialee.mialeemisc.mixin.goals;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.BowAttackGoal;
@@ -23,11 +22,12 @@ public abstract class BowAttackGoalMixin {
         if (actor != null) this.entity = actor;
     }
 
-    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/RangedAttackMob;attack(Lnet/minecraft/entity/LivingEntity;F)V"))
-    private void mialeeMisc$universalRangedAttack(RangedAttackMob attacker, LivingEntity target, float pullProgress, Operation<Void> original) {
-        if (attacker instanceof LivingEntity living && IUniversalRangedItem.tryRangedAttack(living, target, pullProgress)) return;
-        original.call(attacker, target, pullProgress);
-    }
+    /*@WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "sh"))
+    private boolean mialeeMisc$universalRangedAttack(RangedAttackMob attacker, LivingEntity target, float pullProgress) {
+        if (attacker instanceof LivingEntity living && IUniversalRangedItem.tryRangedAttack(living, target, pullProgress))
+            return false;
+        return true;
+    }*/
 
     @Inject(method = "isHoldingBow", at = @At("HEAD"), cancellable = true)
     private void mialeeMisc$moreBows(CallbackInfoReturnable<Boolean> cir) {

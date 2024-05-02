@@ -1,6 +1,5 @@
 package xyz.amymialee.mialeemisc.util;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -36,11 +35,11 @@ public class MialeeRegistry {
 
     public static Block register(Identifier id, Block block, ItemGroup ... groups) {
         for (ItemGroup group : groups) {
-            ItemGroupEvents.modifyEntriesEvent(group).register(content -> {
+            ItemGroupEvents.modifyEntriesEvent(Registries.ITEM_GROUP.getKey(group).get()).register(content -> {
                 content.add(block);
             });
         }
-        return registerBlockItem(id, new BlockItem(block, new FabricItemSettings()));
+        return registerBlockItem(id, new BlockItem(block, new Item.Settings()));
     }
 
     public static Block registerBlockItem(Identifier id, BlockItem item) {

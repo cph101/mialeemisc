@@ -4,3 +4,5 @@ accessible method net/minecraft/client/gui/screen/PresetsScreen getGeneratorConf
 accessible class net/minecraft/entity/ai/brain/task/CrossbowAttackTask$CrossbowState
 accessible method net/minecraft/item/ItemGroup <init> (Lnet/minecraft/item/ItemGroup$Row;ILnet/minecraft/item/ItemGroup$Type;Lnet/minecraft/text/Text;Ljava/util/function/Supplier;Lnet/minecraft/item/ItemGroup$EntryCollector;)V
 accessible field net/minecraft/item/ItemGroup displayStacks Ljava/util/Collection;
+accessible field net/minecraft/recipe/RecipeManager registryLookup Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;
+accessible class net/minecraft/client/gui/screen/world/PresetsScreen$SuperflatPresetsListWidget
